@@ -1,0 +1,370 @@
+/* ============================================
+   Global Animations
+   ============================================ */
+
+/* Base animation properties */
+:root {
+  --animation-duration: 0.8s;
+  --animation-duration-fast: 0.4s;
+  --animation-duration-slow: 1.2s;
+  --animation-easing: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --animation-easing-out: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ============================================
+   Fade Animations
+   ============================================ */
+
+.animate-fade-in {
+  opacity: 0;
+  transition: opacity var(--animation-duration) var(--animation-easing);
+}
+
+.animate-fade-in.is-visible {
+  opacity: 1;
+}
+
+/* ============================================
+   Slide Up Animations
+   ============================================ */
+
+.animate-slide-up {
+  opacity: 0;
+  transform: translateY(40px);
+  transition:
+    opacity var(--animation-duration) var(--animation-easing),
+    transform var(--animation-duration) var(--animation-easing-out);
+}
+
+.animate-slide-up.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ============================================
+   Slide In Animations
+   ============================================ */
+
+.animate-slide-left {
+  opacity: 0;
+  transform: translateX(-40px);
+  transition:
+    opacity var(--animation-duration) var(--animation-easing),
+    transform var(--animation-duration) var(--animation-easing-out);
+}
+
+.animate-slide-left.is-visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.animate-slide-right {
+  opacity: 0;
+  transform: translateX(40px);
+  transition:
+    opacity var(--animation-duration) var(--animation-easing),
+    transform var(--animation-duration) var(--animation-easing-out);
+}
+
+.animate-slide-right.is-visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* ============================================
+   Scale Animations
+   ============================================ */
+
+.animate-scale-in {
+  opacity: 0;
+  transform: scale(0.95);
+  transition:
+    opacity var(--animation-duration) var(--animation-easing),
+    transform var(--animation-duration) var(--animation-easing-out);
+}
+
+.animate-scale-in.is-visible {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* ============================================
+   Stagger Children Animations
+   ============================================ */
+
+.animate-stagger-children > * {
+  opacity: 0;
+  transform: translateY(30px);
+  transition:
+    opacity var(--animation-duration) var(--animation-easing),
+    transform var(--animation-duration) var(--animation-easing-out);
+}
+
+.animate-stagger-children.is-visible > *:nth-child(1) { transition-delay: 0ms; opacity: 1; transform: translateY(0); }
+.animate-stagger-children.is-visible > *:nth-child(2) { transition-delay: 100ms; opacity: 1; transform: translateY(0); }
+.animate-stagger-children.is-visible > *:nth-child(3) { transition-delay: 200ms; opacity: 1; transform: translateY(0); }
+.animate-stagger-children.is-visible > *:nth-child(4) { transition-delay: 300ms; opacity: 1; transform: translateY(0); }
+.animate-stagger-children.is-visible > *:nth-child(5) { transition-delay: 400ms; opacity: 1; transform: translateY(0); }
+.animate-stagger-children.is-visible > *:nth-child(6) { transition-delay: 500ms; opacity: 1; transform: translateY(0); }
+
+/* ============================================
+   Hover Effects
+   ============================================ */
+
+/* Button hover lift */
+.hover-lift {
+  transition: transform 0.3s var(--animation-easing), box-shadow 0.3s var(--animation-easing);
+}
+
+.hover-lift:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Image zoom on hover */
+.hover-zoom {
+  overflow: hidden;
+}
+
+.hover-zoom img {
+  transition: transform 0.6s var(--animation-easing);
+}
+
+.hover-zoom:hover img {
+  transform: scale(1.05);
+}
+
+/* Underline animation for links */
+.hover-underline {
+  position: relative;
+}
+
+.hover-underline::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background: currentColor;
+  transition: width 0.3s var(--animation-easing);
+}
+
+.hover-underline:hover::after {
+  width: 100%;
+}
+
+/* ============================================
+   Page Load Animations
+   ============================================ */
+
+@keyframes heroFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-hero-content {
+  animation: heroFadeIn 1s var(--animation-easing-out) forwards;
+}
+
+.animate-hero-content-delay-1 {
+  opacity: 0;
+  animation: heroFadeIn 1s var(--animation-easing-out) 0.2s forwards;
+}
+
+.animate-hero-content-delay-2 {
+  opacity: 0;
+  animation: heroFadeIn 1s var(--animation-easing-out) 0.4s forwards;
+}
+
+.animate-hero-content-delay-3 {
+  opacity: 0;
+  animation: heroFadeIn 1s var(--animation-easing-out) 0.6s forwards;
+}
+
+/* ============================================
+   Dramatic Animations
+   Exaggerated effects for visual impact
+   ============================================ */
+
+@keyframes dramaticHeroReveal {
+  from {
+    opacity: 0;
+    transform: translateY(60px) scale(0.95);
+    filter: blur(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+  }
+}
+
+@keyframes dramaticFadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(80px);
+    filter: blur(15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+}
+
+@keyframes dramaticScaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+    filter: blur(10px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+    filter: blur(0);
+  }
+}
+
+@keyframes dramaticSlideLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-100px);
+    filter: blur(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+    filter: blur(0);
+  }
+}
+
+@keyframes dramaticSlideRight {
+  from {
+    opacity: 0;
+    transform: translateX(100px);
+    filter: blur(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+    filter: blur(0);
+  }
+}
+
+.animate-dramatic-hero {
+  opacity: 0;
+  animation: dramaticHeroReveal 1s var(--animation-easing-out) forwards;
+}
+
+.animate-dramatic-hero-delay-1 {
+  opacity: 0;
+  animation: dramaticHeroReveal 1s var(--animation-easing-out) 0.15s forwards;
+}
+
+.animate-dramatic-hero-delay-2 {
+  opacity: 0;
+  animation: dramaticHeroReveal 1s var(--animation-easing-out) 0.3s forwards;
+}
+
+.animate-dramatic-fade-up {
+  opacity: 0;
+  transform: translateY(80px);
+  filter: blur(15px);
+  transition:
+    opacity 0.9s var(--animation-easing-out),
+    transform 0.9s var(--animation-easing-out),
+    filter 0.9s var(--animation-easing-out);
+}
+
+.animate-dramatic-fade-up.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+  filter: blur(0);
+}
+
+.animate-dramatic-scale-in {
+  opacity: 0;
+  transform: scale(0.8);
+  filter: blur(10px);
+  transition:
+    opacity 0.8s var(--animation-easing-out),
+    transform 0.8s var(--animation-easing-out),
+    filter 0.8s var(--animation-easing-out);
+}
+
+.animate-dramatic-scale-in.is-visible {
+  opacity: 1;
+  transform: scale(1);
+  filter: blur(0);
+}
+
+.animate-dramatic-slide-left {
+  opacity: 0;
+  transform: translateX(-100px);
+  filter: blur(10px);
+  transition:
+    opacity 0.8s var(--animation-easing-out),
+    transform 0.8s var(--animation-easing-out),
+    filter 0.8s var(--animation-easing-out);
+}
+
+.animate-dramatic-slide-left.is-visible {
+  opacity: 1;
+  transform: translateX(0);
+  filter: blur(0);
+}
+
+.animate-dramatic-slide-right {
+  opacity: 0;
+  transform: translateX(100px);
+  filter: blur(10px);
+  transition:
+    opacity 0.8s var(--animation-easing-out),
+    transform 0.8s var(--animation-easing-out),
+    filter 0.8s var(--animation-easing-out);
+}
+
+.animate-dramatic-slide-right.is-visible {
+  opacity: 1;
+  transform: translateX(0);
+  filter: blur(0);
+}
+
+/* Dramatic stagger children with longer delays */
+.animate-dramatic-stagger > * {
+  opacity: 0;
+  transform: translateY(60px);
+  filter: blur(10px);
+  transition:
+    opacity 0.8s var(--animation-easing-out),
+    transform 0.8s var(--animation-easing-out),
+    filter 0.8s var(--animation-easing-out);
+}
+
+.animate-dramatic-stagger.is-visible > *:nth-child(1) { transition-delay: 0ms; opacity: 1; transform: translateY(0); filter: blur(0); }
+.animate-dramatic-stagger.is-visible > *:nth-child(2) { transition-delay: 150ms; opacity: 1; transform: translateY(0); filter: blur(0); }
+.animate-dramatic-stagger.is-visible > *:nth-child(3) { transition-delay: 300ms; opacity: 1; transform: translateY(0); filter: blur(0); }
+.animate-dramatic-stagger.is-visible > *:nth-child(4) { transition-delay: 450ms; opacity: 1; transform: translateY(0); filter: blur(0); }
+.animate-dramatic-stagger.is-visible > *:nth-child(5) { transition-delay: 600ms; opacity: 1; transform: translateY(0); filter: blur(0); }
+.animate-dramatic-stagger.is-visible > *:nth-child(6) { transition-delay: 750ms; opacity: 1; transform: translateY(0); filter: blur(0); }
+
+/* ============================================
+   Reduce Motion Support
+   ============================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

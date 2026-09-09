@@ -1,0 +1,66 @@
+/* Typography System for the landing page */
+/* Standardized typography variables */
+
+:root {
+  /* Font Families */
+  --font-serif: Georgia, 'Times New Roman', serif;
+
+  /* H1 Hero */
+  --h1-font-family: var(--font-serif);
+  --h1-font-size: clamp(36px, 5vw, 56px);
+  --h1-font-weight: 400;
+  --h1-line-height: 1.2;
+  --h1-letter-spacing: -0.02em;
+
+  /* H2 Section Headline */
+  --h2-font-family: var(--font-serif);
+  --h2-font-size: clamp(32px, 4vw, 48px);
+  --h2-font-weight: 400;
+  --h2-line-height: 1.2;
+  --h2-letter-spacing: -0.02em;
+
+  /* H3 Card Title */
+  --h3-font-size: 20px;
+  --h3-font-weight: 600;
+  --h3-line-height: 1.3;
+
+  /* Label/Tag */
+  --label-font-size: 12px;
+  --label-font-weight: 600;
+  --label-letter-spacing: 0.15em;
+
+  /* Body Text */
+  --body-font-size: 15px;
+  --body-line-height: 1.6;
+
+  /* Small/Caption */
+  --small-font-size: 14px;
+  --small-line-height: 1.5;
+
+  /* Subheadline */
+  --subheadline-font-size: clamp(16px, 2vw, 18px);
+  --subheadline-line-height: 1.6;
+
+  /* Stat Values */
+  --stat-font-family: var(--font-serif);
+  --stat-font-size: clamp(48px, 6vw, 72px);
+  --stat-featured-font-size: clamp(64px, 8vw, 96px);
+  --stat-letter-spacing: -0.02em;
+
+  /* Light Section Colors */
+  --text-heading-light: #1a2e4a;
+  --text-body-light: rgba(0, 0, 0, 0.7);
+  --text-muted-light: rgba(0, 0, 0, 0.6);
+  --text-label-light: rgba(0, 0, 0, 0.5);
+
+  /* Dark Section Colors */
+  --text-heading-dark: #fff;
+  --text-body-dark: rgba(255, 255, 255, 0.85);
+  --text-muted-dark: rgba(255, 255, 255, 0.7);
+  --text-label-dark: rgba(255, 255, 255, 0.6);
+
+  /* On-image overlay text */
+  --text-heading-overlay: #fff;
+  --text-body-overlay: rgba(255, 255, 255, 0.9);
+  --text-label-overlay: rgba(255, 255, 255, 0.8);
+}

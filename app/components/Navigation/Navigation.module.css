@@ -1,0 +1,266 @@
+.nav {
+  position: sticky;
+  top: 0;
+  background: rgba(249, 249, 249, 0.8);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 0.75px solid rgba(0, 0, 0, 0.09);
+  z-index: 1000;
+  padding: 6px 0;
+}
+
+.navContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+  transition: opacity 0.2s;
+  line-height: 1;
+}
+
+.logo:hover {
+  opacity: 0.7;
+}
+
+.logoText {
+  font-family: "Poppins", -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 24px;
+  font-weight: 600;
+  color: #050505;
+  letter-spacing: normal;
+}
+
+.logoSubtitle {
+  font-family: "Poppins", -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 10px;
+  font-weight: 500;
+  color: rgba(0, 0, 0, 0.5);
+  letter-spacing: 0.02em;
+  margin-top: 2px;
+}
+
+.navRight {
+  display: flex;
+  gap: 30px;
+  align-items: center;
+}
+
+.navLinks {
+  display: flex;
+  gap: 35px;
+  list-style: none;
+  align-items: center;
+}
+
+.navLinks a {
+  color: rgba(0, 0, 0, 0.61);
+  text-decoration: none;
+  font-size: 14px;
+  font-family: "Poppins", sans-serif;
+  font-weight: 500;
+  transition: color 0.2s;
+}
+
+.navLinks a:hover {
+  color: #050505;
+}
+
+/* Dropdown Styles */
+.dropdownWrapper {
+  position: relative;
+}
+
+.dropdownTrigger {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: rgba(0, 0, 0, 0.61);
+  font-size: 14px;
+  font-family: "Poppins", sans-serif;
+  font-weight: 500;
+  padding: 0;
+  transition: color 0.2s;
+}
+
+.dropdownTrigger:hover {
+  color: #050505;
+}
+
+.dropdownIcon {
+  transition: transform 0.2s;
+}
+
+.dropdownWrapper:hover .dropdownIcon {
+  transform: rotate(180deg);
+}
+
+.dropdownIconOpen {
+  transform: rotate(180deg);
+}
+
+.dropdownMenu {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.09);
+  border-radius: 8px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  list-style: none;
+  padding: 8px 0;
+  min-width: 180px;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.2s, visibility 0.2s;
+  margin-top: 8px;
+}
+
+.dropdownWrapper:hover .dropdownMenu {
+  opacity: 1;
+  visibility: visible;
+}
+
+.dropdownMenu li {
+  padding: 0;
+}
+
+.dropdownMenu a {
+  display: block;
+  padding: 10px 16px;
+  color: rgba(0, 0, 0, 0.7);
+  font-size: 14px;
+  font-family: "Poppins", sans-serif;
+  font-weight: 500;
+  text-decoration: none;
+  transition: background 0.2s, color 0.2s;
+}
+
+.dropdownMenu a:hover {
+  background: rgba(0, 0, 0, 0.04);
+  color: #050505;
+}
+
+.navButtons {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+/* Mobile Menu Toggle */
+.mobileMenuToggle {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+}
+
+.hamburger {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.hamburger span {
+  display: block;
+  width: 24px;
+  height: 2px;
+  background: #050505;
+  transition: all 0.3s;
+}
+
+/* Mobile Menu */
+.mobileMenu {
+  display: none;
+  background: #fff;
+  border-top: 0.75px solid rgba(0, 0, 0, 0.09);
+  padding: 8px 16px;
+}
+
+.mobileMenu ul {
+  list-style: none;
+  margin-bottom: 8px;
+}
+
+.mobileMenu ul li {
+  margin-bottom: 6px;
+}
+
+.mobileMenu a {
+  color: #050505;
+  text-decoration: none;
+  font-size: 12px;
+  font-family: "Poppins", sans-serif;
+  font-weight: 500;
+  display: block;
+  padding: 4px 0;
+}
+
+.mobileButtons {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Mobile Dropdown Styles */
+.mobileDropdownWrapper {
+  margin-bottom: 0;
+}
+
+.mobileDropdownTrigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #050505;
+  font-size: 12px;
+  font-family: "Poppins", sans-serif;
+  font-weight: 500;
+  padding: 4px 0;
+  text-align: left;
+}
+
+.mobileDropdownMenu {
+  list-style: none;
+  padding-left: 16px;
+  margin-top: 4px;
+}
+
+.mobileDropdownMenu li {
+  margin-bottom: 4px;
+}
+
+.mobileDropdownMenu a {
+  color: rgba(0, 0, 0, 0.7);
+  font-size: 12px;
+}
+
+@media (max-width: 809.98px) {
+  .navRight {
+    display: none;
+  }
+
+  .mobileMenuToggle {
+    display: block;
+  }
+
+  .mobileMenu {
+    display: block;
+  }
+
+  .mobileMenu {
+    padding: 8px 12px;
+  }
+}

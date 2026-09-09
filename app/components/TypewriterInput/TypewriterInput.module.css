@@ -1,0 +1,100 @@
+.container {
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.inputWrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  background: #fff;
+  border-radius: 50px;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+  padding: 8px 8px 8px 24px;
+  transition: box-shadow 0.2s ease;
+}
+
+.inputWrapper:focus-within {
+  box-shadow: 0 4px 32px rgba(66, 136, 162, 0.2);
+}
+
+.input {
+  flex: 1;
+  border: none;
+  outline: none;
+  font-size: 16px;
+  padding: 12px 0;
+  background: transparent;
+  color: #050505;
+  font-family: inherit;
+}
+
+.input::placeholder {
+  color: rgba(0, 0, 0, 0.4);
+}
+
+.placeholder {
+  position: absolute;
+  left: 24px;
+  right: 70px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  color: rgba(0, 0, 0, 0.4);
+  font-size: 16px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: left;
+}
+
+.placeholder :global(.Typewriter__cursor) {
+  color: #4288A2;
+}
+
+.submitButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: none;
+  background: #c5d5c5;
+  color: #3a5a3a;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.2s ease;
+  flex-shrink: 0;
+}
+
+.submitButton:hover {
+  background: #b5c5b5;
+  transform: scale(1.05);
+}
+
+.submitButton:active {
+  transform: scale(0.98);
+}
+
+@media (max-width: 600px) {
+  .inputWrapper {
+    padding: 6px 6px 6px 16px;
+  }
+
+  .input {
+    font-size: 14px;
+    padding: 10px 0;
+  }
+
+  .placeholder {
+    left: 16px;
+    right: 56px;
+    font-size: 14px;
+  }
+
+  .submitButton {
+    width: 40px;
+    height: 40px;
+  }
+}

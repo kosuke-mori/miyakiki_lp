@@ -1,0 +1,116 @@
+# Painted Door Test — Copy & UX PRD
+
+**Scope:** This document covers copy and user experience/flow only. No implementation or visual design direction included — existing LP/survey scaffolding should be used as-is.
+
+**Test focus (v1):** Single value prop — *"Stop holding every unfinished task inside your head"* (vp1 – Brain dump → To-do list). LP headline, profiling questions, and info card are all aligned to this one value prop for simplicity. Structure is built so additional value props can be swapped in later without changing the flow.
+
+---
+
+## 1. Flow overview
+
+```
+Ad Click → Landing Page → Q1 → (Modal: kids count, conditional) → Q2 → Q3 → (Modal: satisfaction, always) → Q4 (conditional) → Info Card → CTA
+```
+
+---
+
+## 2. Landing Page
+
+**Headline:**
+> Stop holding every unfinished task inside your head.
+
+No further LP copy specified at this stage — headline stands alone. Primary action leads into Q1.
+
+---
+
+## 3. Profiling Questions
+
+### Q1 — Household situation
+**Prompt:** "Who are you keeping track of?"
+
+**Options (single-select):**
+- Just me
+- Me + my partner
+- Me + kids
+- The whole family (partner + kids)
+
+**Conditional follow-up modal:**
+Triggered only if the user selects **"Me + kids"** or **"The whole family (partner + kids)."**
+
+> **Modal prompt:** "How many kids?"
+> **Options (single-select):** 1 / 2 / 3 / 4 or more
+
+After modal selection (or immediately, if no modal triggered), proceed to Q2.
+
+---
+
+### Q2 — Core pain
+**Prompt:** "What's hardest to stay on top of right now?"
+
+**Options (single-select):**
+- Turning conversations/messages into an actual to-do list
+- Knowing what actually matters *today*
+- Remembering everyone else's stuff, not just my own
+- Having the right context when I need to make a decision
+- Knowing what my partner's already handling
+
+No follow-up modal. Proceed directly to Q3.
+
+---
+
+### Q3 — Current workaround
+**Prompt:** "How are you managing this today?"
+
+**Options (single-select):**
+- Notes app / sticky notes
+- Shared calendar or app
+- Mostly just my memory
+- A mix of everything, and it's chaos
+
+**Follow-up modal (always shown, regardless of answer):**
+
+> **Modal prompt:** "How satisfied are you with this approach?"
+> **Scale (single-select, 5 points):** 5 – Very satisfied / 4 / 3 / 2 / 1 – Not satisfied at all
+
+After modal, proceed to Q4 if condition met, otherwise skip to Info Card.
+
+---
+
+### Q4 — Household dynamic (conditional)
+Shown only if Q1 = **"Me + partner"** or **"The whole family (partner + kids)."** Skipped entirely for "Just me" or "Me + kids."
+
+**Prompt:** "Do you tend to be the one everyone relies on to remember things, or more backup?"
+
+**Options (single-select):**
+- I'm usually the one tracking it
+- Pretty split between us
+- My partner tracks most of it
+
+After Q4 (or after Q3's modal, if Q4 is skipped), proceed to Info Card.
+
+---
+
+## 4. Info Card
+
+Shown to all users regardless of profiling answers (single value prop for this test).
+
+**Headline (pain):**
+> Stop holding every unfinished task inside your head.
+
+**Subhead (functional):**
+> Turn a messy chat into a clear to-do list — no organizing required.
+
+**Proof line (emotional/example):**
+> Say school forms, groceries, appointments — and watch them get organized.
+
+**CTA button:**
+> Notify Me When It's Ready
+
+---
+
+## 5. Notes for the agent
+
+- All questions are single-select unless stated otherwise.
+- Modals interrupt the flow only where specified (Q1 kids-count, Q3 satisfaction) — both are lightweight, single-tap follow-ups.
+- Every profiling answer should be captured and associated with the session, so responses can later be cross-referenced with which ad/copy variant brought the user in.
+- No other LP copy, profiling copy, or info card copy is in scope for this version — only what's listed above.

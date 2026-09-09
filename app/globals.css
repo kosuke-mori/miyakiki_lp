@@ -1,0 +1,465 @@
+/* Tailwind CSS v4 */
+@import "tailwindcss";
+
+/* Animation utilities (animate-in/out, fade, zoom, slide) used by the
+   ported shadcn dialog/drawer components */
+@import "tw-animate-css";
+
+/* Typography System */
+@import "./styles/typography.css";
+
+/* Tailwind v4 Theme Configuration */
+/* This registers custom colors so Tailwind generates utility classes */
+@theme {
+  /* Text Colors */
+  --color-text-primary: #050505;
+  --color-text-secondary: rgba(0, 0, 0, 0.61);
+  --color-text-muted: rgba(0, 0, 0, 0.49);
+  --color-text-subtle: rgba(0, 0, 0, 0.45);
+  --color-text-disabled: rgba(0, 0, 0, 0.3);
+  --color-text-inverse: #fff;
+  --color-text-inverse-muted: rgba(255, 255, 255, 0.6);
+
+  /* Background Colors */
+  --color-bg-base: #f9f9f9;
+  --color-bg-surface: #fff;
+  --color-bg-surface-alt: #F5F5F5;
+  --color-bg-hover: rgba(0, 0, 0, 0.03);
+  --color-bg-inverse: #050505;
+
+  /* Border Colors */
+  --color-border-subtle: #F5F5F5;
+  --color-border-default: rgba(0, 0, 0, 0.23);
+  --color-border-strong: rgba(0, 0, 0, 0.45);
+  --color-border-light: rgba(0, 0, 0, 0.05);
+  --color-border-inverse: rgba(255, 255, 255, 0.1);
+
+  /* Brand Colors - Brand Blue */
+  --color-primary: #4288A2;
+  --color-primary-hover: #3a7a91;
+  --color-primary-light: #e8f2f6;
+
+  /* Accent Colors */
+  --color-accent-teal: #0e7490;
+  --color-accent-light-blue: #e6f4fc;
+  --color-accent-dark-blue: #0369a1;
+
+  /* Shadows */
+  --shadow-card: 0 4px 16px -8px rgba(0, 0, 0, 0.1), 0 3px 12px -4px rgba(0, 0, 0, 0.1), 0 2px 3px -2px rgba(0, 0, 0, 0.09), 0 0 0 0.75px rgba(0, 0, 0, 0.09);
+  --shadow-hero: 0 16px 36px -20px rgba(0, 0, 0, 0.3), 0 16px 64px rgba(0, 0, 0, 0.05), 0 12px 60px rgba(0, 0, 0, 0.26), 0 0 0 0.75px rgba(0, 0, 0, 0.09);
+
+  /* ==========================================================================
+     Funnel design system tokens (used by the survey funnel).
+     `primary` is NOT redefined here — it stays the LP brand blue globally
+     and is overridden to the funnel teal inside the .funnel-theme scope below.
+     ========================================================================== */
+  --color-background: hsl(48 33% 97%);
+  --color-foreground: hsl(220 9% 20%);
+  --color-card: hsl(0 0% 100%);
+  --color-card-foreground: hsl(220 9% 20%);
+  --color-popover: hsl(0 0% 100%);
+  --color-popover-foreground: hsl(220 9% 20%);
+  --color-primary-foreground: hsl(0 0% 100%);
+  --color-secondary: hsl(220 14% 96%);
+  --color-secondary-foreground: hsl(220 9% 20%);
+  --color-muted: hsl(220 14% 96%);
+  --color-muted-foreground: hsl(220 9% 46%);
+  --color-accent: hsl(177 78% 13%);
+  --color-accent-foreground: hsl(0 0% 100%);
+  --color-destructive: hsl(0 84% 60%);
+  --color-destructive-foreground: hsl(0 0% 100%);
+  --color-border: hsl(220 13% 91%);
+  --color-input: hsl(220 13% 91%);
+  --color-ring: hsl(177 78% 13%);
+  --font-serif: "Source Serif 4", ui-serif, Georgia, serif;
+}
+
+/* ==========================================================================
+   .funnel-theme — design system scope for the survey funnel.
+   Applied to the funnel page root (FunnelLayout) and to portaled content
+   (drawer/dialog), so the LP homepage keeps its own branding.
+
+   These rules live in @layer base so Tailwind utilities (@layer utilities)
+   can override them. Unlayered rules would invert that and defeat classes
+   like border-primary or text-lg on funnel elements.
+   ========================================================================== */
+@layer base {
+  .funnel-theme {
+    /* Funnel primary: dark teal (LP-wide primary stays brand blue) */
+    --color-primary: hsl(177 78% 13%);
+    /* Restore Tailwind's radius scale inside the funnel — the LP's unlayered
+       :root below redefines --radius-sm/md/lg (9/12/15px) in Tailwind v4's
+       reserved namespace, which would make every rounded-* ~2x too round. */
+    --radius-sm: 0.25rem;
+    --radius-md: 0.375rem;
+    --radius-lg: 0.5rem;
+    /* typography.css's unlayered :root sets --font-serif to Georgia; the
+       funnel's serif is Source Serif 4. */
+    --font-serif: "Source Serif 4", ui-serif, Georgia, serif;
+    /* Funnel focus outlines use the funnel ring teal (the LP's
+       *:focus-visible rule reads this variable). */
+    --color-accent-blue: hsl(177 78% 13%);
+    font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    font-size: 1rem;
+    line-height: 1.5;
+    color: var(--color-foreground);
+  }
+
+  /* The funnel design system applies `* { border-color: border token }`
+     globally. Include .funnel-theme itself: portaled DrawerContent/
+     DialogContent carry the class on the bordered element. */
+  .funnel-theme,
+  .funnel-theme *,
+  .funnel-theme ::before,
+  .funnel-theme ::after {
+    border-color: var(--color-border);
+  }
+
+  /* Neutralize the LP's mobile `button { min-height/width: 44px }` inside the
+     funnel — funnel buttons size purely from their utility classes. */
+  .funnel-theme button {
+    min-height: 0;
+    min-width: 0;
+  }
+
+  /* Funnel typography system (serif headings).
+     h1 scale: text-2xl → md:text-3xl → lg:text-4xl */
+  .funnel-theme h1 {
+    font-family: "Source Serif 4", ui-serif, Georgia, serif;
+    font-size: 1.5rem;
+    line-height: 2rem;
+    font-weight: 600;
+    letter-spacing: -0.025em;
+  }
+
+  @media (min-width: 768px) {
+    .funnel-theme h1 {
+      font-size: 1.875rem;
+      line-height: 2.25rem;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .funnel-theme h1 {
+      font-size: 2.25rem;
+      line-height: 2.5rem;
+    }
+  }
+
+  .funnel-theme h3 {
+    font-family: "Source Serif 4", ui-serif, Georgia, serif;
+    font-size: 1.25rem;
+    line-height: 1.75rem;
+    font-weight: 500;
+    letter-spacing: -0.025em;
+  }
+}
+
+/* Beat the LP's global `.bg-primary { #4288A2 !important }` rules inside the
+   funnel scope. Deliberately UNLAYERED: both sides use !important, and for
+   important declarations layered rules beat unlayered ones — these must stay
+   in the same (unlayered) stratum as the LP helpers, winning on specificity.
+   Literal hsl values (not var()) so the compiler can't bake an sRGB fallback
+   resolved against the @theme (LP blue). Hover matches
+   bg-primary/90 = hsl(var(--primary) / 0.9). */
+.funnel-theme .bg-primary {
+  background-color: hsl(177 78% 13%) !important;
+  color: hsl(0 0% 100%) !important;
+}
+
+.funnel-theme .bg-primary:hover {
+  background-color: hsl(177 78% 13% / 0.9) !important;
+}
+
+/* Button styles - brand blue */
+.bg-primary {
+  background-color: #4288A2 !important;
+  color: #fff !important;
+}
+
+.bg-primary:hover,
+.hover\:bg-primary-hover:hover {
+  background-color: #3a7a91 !important;
+}
+
+.text-white {
+  color: #fff !important;
+}
+
+/* Own-label hero overlay - lighter gradient on mobile */
+.own-label-overlay {
+  /* Override mobile gradient here */
+}
+
+@media (max-width: 639.98px) {
+  .own-label-overlay {
+    background: linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.9) 0%,
+      rgba(255, 255, 255, 0.8) 30%,
+      rgba(255, 255, 255, 0.25) 65%,
+      rgba(255, 255, 255, 0.7) 80%,
+      rgba(255, 255, 255, 0.9) 100%
+    ) !important;
+  }
+}
+
+.text-text-inverse {
+  color: #fff !important;
+}
+
+/* Button-specific padding utilities - scaled 25% */
+/* Medium button (Hero/CTA): 10.5px 30px */
+.btn-px-10 {
+  padding-left: 1.875rem !important;  /* 30px */
+  padding-right: 1.875rem !important; /* 30px */
+}
+
+.btn-py-3\.5 {
+  padding-top: 0.656rem !important;    /* 10.5px */
+  padding-bottom: 0.656rem !important; /* 10.5px */
+}
+
+/* Small button (Navigation): 9px 24px */
+.btn-px-8 {
+  padding-left: 1.5rem !important;  /* 24px */
+  padding-right: 1.5rem !important; /* 24px */
+}
+
+.btn-py-3 {
+  padding-top: 0.563rem !important;    /* 9px */
+  padding-bottom: 0.563rem !important; /* 9px */
+}
+
+.duration-200 {
+  transition-duration: 200ms !important;
+}
+
+.transition-all {
+  transition-property: all !important;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+.hover\:-translate-y-0\.5:hover {
+  transform: translateY(-2px) !important;
+}
+
+.active\:translate-y-0:active {
+  transform: translateY(0) !important;
+}
+
+/* Design System - Global Styles */
+/* Based on design-system-reference.md */
+/* Wrapped in @layer base so Tailwind utilities (@layer utilities) win over
+   these element/global selectors — unlayered they beat ALL utilities and
+   broke the survey funnel (`.hidden` vs lg:grid, `* {margin:0}` vs mb-*,
+   `p {line-height}` vs text-*, etc.). The LP itself styles via CSS Modules
+   (unlayered), which still override this layer as before. */
+@layer base {
+
+:root {
+  /* Color Palette - Primary Colors */
+  --color-text-primary: #050505;
+  --color-text-secondary: rgba(0, 0, 0, 0.61);
+  --color-text-muted: rgba(0, 0, 0, 0.49);
+  --color-text-subtle: rgba(0, 0, 0, 0.45);
+  --color-text-disabled: rgba(0, 0, 0, 0.3);
+
+  /* Background Colors */
+  --color-bg-primary: #f9f9f9;
+  --color-bg-white: #fff;
+  --color-bg-hover: rgba(0, 0, 0, 0.03);
+  --color-bg-dark: #050505;
+
+  /* Border Colors */
+  --color-border-primary: rgba(0, 0, 0, 0.09);
+  --color-border-secondary: rgba(0, 0, 0, 0.23);
+  --color-border-hover: rgba(0, 0, 0, 0.45);
+  --color-border-light: rgba(0, 0, 0, 0.05);
+
+  /* Accent Colors */
+  --color-accent-teal: #0e7490;
+  --color-accent-light-blue: #e6f4fc;
+  --color-accent-dark-blue: #0369a1;
+  /* Read by the *:focus-visible rules below. Was previously undefined, which
+     made the outline shorthand invalid and silently disabled ALL keyboard
+     focus outlines. Brand blue. */
+  --color-accent-blue: #4288A2;
+
+  /* Dark Mode (Footer) */
+  --color-text-white: #fff;
+  --color-text-white-muted: rgba(255, 255, 255, 0.6);
+  --color-text-white-subtle: rgba(255, 255, 255, 0.45);
+  --color-border-white: rgba(255, 255, 255, 0.1);
+
+  /* Typography - Font Sizes (Desktop ≥640px) */
+  --text-hero-title: 48px;
+  --text-section-title: 42px;
+  --text-heading: 18px;
+  --text-subheading: 18px;
+  --text-body: 18px;
+  --text-small: 18px;
+  --text-tiny: 18px;
+  --text-caption: 18px;
+
+  /* Line Heights */
+  --line-height-tight: 1.2em;
+  --line-height-normal: 1.7em;
+
+  /* Spacing System (Base Unit: 3px - scaled 25%) */
+  --space-1: 3px;
+  --space-2: 6px;
+  --space-3: 9px;
+  --space-4: 12px;
+  --space-5: 15px;
+  --space-6: 18px;
+  --space-8: 24px;
+  --space-10: 30px;
+  --space-15: 45px;
+  --space-20: 60px;
+  --space-25: 75px;
+
+  /* Border Radius */
+  --radius-sm: 9px;
+  --radius-md: 12px;
+  --radius-lg: 15px;
+  --radius-full: 9999px;
+
+  /* Shadows */
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 16px -8px rgba(0, 0, 0, 0.1),
+              0 3px 12px -4px rgba(0, 0, 0, 0.1),
+              0 2px 3px -2px rgba(0, 0, 0, 0.09),
+              0 0 0 0.75px rgba(0, 0, 0, 0.09);
+  --shadow-hero: 0 16px 36px -20px rgba(0, 0, 0, 0.3),
+                 0 16px 64px rgba(0, 0, 0, 0.05),
+                 0 12px 60px rgba(0, 0, 0, 0.26),
+                 0 0 0 0.75px rgba(0, 0, 0, 0.09);
+
+  /* Transitions */
+  --duration-fast: 0.2s;
+  --duration-normal: 0.3s;
+  --duration-slow: 0.5s;
+  --ease-default: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Mobile Breakpoint (<640px) */
+@media (max-width: 639.98px) {
+  :root {
+    --text-hero-title: 40px;
+    --text-section-title: 36px;
+    --text-heading: 18px;
+  }
+}
+
+/* Tablet Breakpoint (640px - 1199px) */
+@media (min-width: 640px) and (max-width: 1199.98px) {
+  :root {
+    --text-hero-title: 56px;
+    --text-section-title: 48px;
+  }
+}
+
+/* Reset & Base Styles */
+* {
+  box-sizing: border-box;
+  margin: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: "Poppins", -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+  font-size: var(--text-body);
+  line-height: var(--line-height-normal);
+  color: var(--color-text-primary);
+  background: var(--color-bg-primary);
+}
+
+/* Typography - Hims-inspired (Sofia Pro → Poppins) */
+h1, h2, h3, h4, h5, h6 {
+  font-family: "Poppins", -apple-system, BlinkMacSystemFont, sans-serif;
+  line-height: 1.1;
+  letter-spacing: normal;
+}
+
+h1 {
+  font-size: var(--text-hero-title);
+  font-weight: 600;
+}
+
+h2 {
+  font-weight: 600;
+}
+
+/* Solution section headlines - consistent 28px */
+.solution-headline {
+  font-size: 28px !important;
+  font-weight: 600 !important;
+  margin-bottom: 20px;
+  color: #1a1a1a;
+  letter-spacing: -0.01em;
+  line-height: 1.3;
+}
+
+h3 {
+  font-size: var(--text-heading);
+  font-weight: 500;
+}
+
+p {
+  line-height: var(--line-height-normal);
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+  transition: color var(--duration-fast) ease;
+}
+
+/* Focus States */
+*:focus-visible {
+  outline: 2px solid var(--color-accent-blue);
+  outline-offset: 2px;
+}
+
+button:focus-visible,
+a:focus-visible {
+  outline: 2px solid var(--color-accent-blue);
+  outline-offset: 2px;
+}
+
+/* Utility Classes */
+.container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+@media (max-width: 639.98px) {
+  .container {
+    padding: 0 20px;
+  }
+}
+
+.text-center {
+  text-align: center;
+}
+
+.hidden {
+  display: none;
+}
+
+/* Minimum Touch Targets for Mobile */
+@media (max-width: 639.98px) {
+  button {
+    min-height: 44px;
+    min-width: 44px;
+  }
+}
+
+} /* end @layer base (Design System - Global Styles) */

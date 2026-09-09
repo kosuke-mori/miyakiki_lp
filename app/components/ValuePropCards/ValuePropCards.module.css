@@ -1,0 +1,248 @@
+.section {
+  padding: 80px 0;
+  background: linear-gradient(to bottom, #f5f5f0, #e8ebe4);
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 48px;
+  max-width: 900px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.headline {
+  font-family: var(--h2-font-family);
+  font-size: var(--h2-font-size);
+  font-weight: var(--h2-font-weight);
+  line-height: var(--h2-line-height);
+  letter-spacing: var(--h2-letter-spacing);
+  color: var(--text-heading-light);
+  margin-bottom: 20px;
+}
+
+.subheadline {
+  font-size: var(--subheadline-font-size);
+  color: var(--text-body-light);
+  line-height: var(--subheadline-line-height);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.card {
+  border-radius: 20px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  min-height: 420px;
+  position: relative;
+}
+
+/* Image card (left) */
+.card.image {
+  background: #1a2e4a;
+}
+
+.imageWrapper {
+  position: absolute;
+  inset: 0;
+}
+
+.cardImage {
+  object-fit: cover;
+}
+
+.imageOverlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0.2) 50%, transparent 100%);
+}
+
+.card.image .cardContent {
+  position: relative;
+  margin-top: auto;
+  z-index: 1;
+  color: #fff;
+}
+
+.card.image .cardTitle {
+  color: var(--text-heading-overlay);
+}
+
+.card.image .cardDescription {
+  color: var(--text-body-dark);
+}
+
+/* Illustration card (middle) */
+.card.illustration {
+  background: #c5d5e4;
+}
+
+.illustrationArea {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 32px;
+}
+
+.mockup {
+  background: #fff;
+  border-radius: 24px;
+  padding: 12px 16px;
+  width: 180px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+.mockupHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12px;
+  color: #333;
+  margin-bottom: 12px;
+}
+
+.mockupContent {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.mockupLine {
+  height: 8px;
+  background: #e0e0e0;
+  border-radius: 4px;
+}
+
+.mockupLine:last-child {
+  width: 60%;
+}
+
+/* Badges card (right) */
+.card.badges {
+  background: linear-gradient(135deg, #5a7fa8 0%, #3d5a80 100%);
+}
+
+.badgesArea {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 32px;
+  position: relative;
+}
+
+.badgesWrapper {
+  position: relative;
+  width: 200px;
+  height: 200px;
+}
+
+.badge {
+  position: absolute;
+  background: rgba(255, 255, 255, 0.95);
+  color: #1a2e4a;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 500;
+  white-space: nowrap;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.badge:nth-child(1) { top: 0; right: 10px; }
+.badge:nth-child(2) { top: 30px; left: 0; }
+.badge:nth-child(3) { top: 60px; right: 0; }
+.badge:nth-child(4) { top: 100px; left: 10px; }
+.badge:nth-child(5) { bottom: 40px; right: 20px; }
+.badge:nth-child(6) { bottom: 10px; left: 20px; }
+
+.centerIcon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 64px;
+  height: 64px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+}
+
+.card.badges .cardContent {
+  color: #fff;
+}
+
+.card.badges .cardTitle {
+  color: var(--text-heading-dark);
+}
+
+.card.badges .cardDescription {
+  color: var(--text-body-dark);
+}
+
+/* Card content */
+.cardContent {
+  padding: 24px;
+  text-align: center;
+}
+
+.cardTitle {
+  font-size: var(--h3-font-size);
+  font-weight: var(--h3-font-weight);
+  line-height: var(--h3-line-height);
+  color: var(--text-heading-light);
+  margin-bottom: 12px;
+}
+
+.cardDescription {
+  font-size: var(--body-font-size);
+  color: var(--text-body-light);
+  line-height: var(--body-line-height);
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .headline {
+    font-size: 36px;
+  }
+
+  .grid {
+    gap: 20px;
+  }
+
+  .card {
+    min-height: 380px;
+  }
+}
+
+@media (max-width: 768px) {
+  .section {
+    padding: 60px 0;
+  }
+
+  .headline {
+    font-size: 28px;
+  }
+
+  .subheadline {
+    font-size: 16px;
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+  .card {
+    min-height: 360px;
+  }
+}
