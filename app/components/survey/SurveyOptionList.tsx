@@ -2,11 +2,16 @@
 
 // SurveyOptionList - Container for survey options with selection logic
 
-import { SurveyQuestion } from './types'
+import { SurveyOption as SurveyOptionType } from './types'
 import SurveyOption from './SurveyOption'
 
+// Structural subset of SurveyQuestion/PostSignupQuestion — this list only
+// needs the selection type and the options, so both question kinds fit.
 interface SurveyOptionListProps {
-  question: SurveyQuestion
+  question: {
+    type: 'single-select' | 'multi-select'
+    options: SurveyOptionType[]
+  }
   selectedValues: string[]
   onSelectionChange: (values: string[]) => void
 }

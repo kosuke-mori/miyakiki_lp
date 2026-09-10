@@ -30,35 +30,46 @@ export const SURVEY_QUESTIONS: SurveyQuestion[] = [
     }
   },
   {
+    // Primary segmentation question: option order is randomized per session
+    // (attraction-accuracy analysis; avoids first-position bias) with
+    // "Honestly, something else" always pinned last. Values vp1–vp5 map to
+    // the ad value props for cross-tabbing against the arrival `variant`.
     id: 'core-pain',
-    title: "What's hardest to stay on top of right now?",
+    title: 'Which of these is hardest to stay on top of right now?',
     type: 'single-select',
     required: true,
+    randomizeOptions: true,
     options: [
       {
-        id: 'conversations-to-todos',
-        label: 'Turning conversations/messages into an actual to-do list',
-        value: 'conversations-to-todos'
+        id: 'vp1',
+        label: 'Turning scattered thoughts and messages into an actual to-do list',
+        value: 'vp1'
       },
       {
-        id: 'what-matters-today',
-        label: 'Knowing what actually matters today',
-        value: 'what-matters-today'
+        id: 'vp2',
+        label: 'Knowing what actually matters most today',
+        value: 'vp2'
       },
       {
-        id: 'everyone-elses-stuff',
-        label: "Remembering everyone else's stuff, not just my own",
-        value: 'everyone-elses-stuff'
+        id: 'vp3',
+        label: "Keeping track of everyone else's stuff, not just my own",
+        value: 'vp3'
       },
       {
-        id: 'context-for-decisions',
-        label: 'Having the right context when I need to make a decision',
-        value: 'context-for-decisions'
+        id: 'vp4',
+        label: 'Remembering all the little details — appointments, allergies, deadlines — when I need them',
+        value: 'vp4'
       },
       {
-        id: 'partner-visibility',
-        label: "Knowing what my partner's already handling",
-        value: 'partner-visibility'
+        id: 'vp5',
+        label: 'Knowing what my partner is already handling',
+        value: 'vp5'
+      },
+      {
+        id: 'something-else',
+        label: 'Honestly, something else',
+        value: 'something-else',
+        pinned: true
       }
     ]
   },

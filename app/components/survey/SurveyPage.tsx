@@ -16,7 +16,9 @@ export default function SurveyPage({
   ctaText = 'Continue',
   ctaLoadingText = 'Saving...',
   isLoading = false,
-  isDisabled = false
+  isDisabled = false,
+  progress,
+  onBack
 }: SurveyPageProps) {
   // Determine if form is valid based on question requirements
   const isValid = question.required ? selectedValues.length > 0 : true
@@ -36,6 +38,8 @@ export default function SurveyPage({
       submitLoadingText={ctaLoadingText}
       isLoading={isLoading}
       isDisabled={shouldDisable}
+      progress={progress}
+      onBack={onBack}
       showHeroSection={showHeroSection}
       useStickyMobile={true}
     >

@@ -25,6 +25,11 @@ interface FunnelLayoutProps {
   isLoading?: boolean
   isDisabled?: boolean
 
+  // Optional step indicator, rendered above the title (e.g. a progress bar)
+  progress?: ReactNode
+  // Optional back arrow, left-aligned, rendered below the title/description
+  onBack?: () => void
+
   // Layout customization
   showHeroSection?: boolean
   formMaxWidth?: string
@@ -33,7 +38,20 @@ interface FunnelLayoutProps {
   useStickyMobile?: boolean
 }
 
-const FunnelHeader = () => (
+// Block + text-left so the arrow sits at the left edge regardless of the
+// surrounding layout's text-center/text-left alignment.
+const BackLink = ({ onBack }: { onBack: () => void }) => (
+  <button
+    type="button"
+    onClick={onBack}
+    aria-label="Back"
+    className="mb-3 block w-full text-left text-lg text-muted-foreground hover:text-foreground"
+  >
+    ←
+  </button>
+)
+
+export const FunnelHeader = () => (
   <header className="px-5 py-4 lg:px-8">
     <Link
       href="/"
@@ -55,6 +73,8 @@ export default function FunnelLayout({
   submitLoadingText = 'Loading...',
   isLoading = false,
   isDisabled = false,
+  progress,
+  onBack,
   showHeroSection = true,
   formMaxWidth = 'max-w-sm',
   useStickyMobile = false
@@ -71,6 +91,8 @@ export default function FunnelLayout({
         {showHeroSection && (
           <div className="flex items-center justify-center px-8 py-12">
             <div className="max-w-md text-center lg:text-left">
+              {progress}
+              {onBack && <BackLink onBack={onBack} />}
               <h1 className="mb-4">{title}</h1>
               {description && (
                 <p className="text-xl text-muted-foreground mb-2">
@@ -115,6 +137,8 @@ export default function FunnelLayout({
           <>
             <div className="flex-1 px-4 py-8 pb-20">
               <div className="text-center mb-8">
+                {progress}
+                {onBack && <BackLink onBack={onBack} />}
                 <h1 className="mb-4">{title}</h1>
                 {description && (
                   <p className="text-muted-foreground">
@@ -144,6 +168,8 @@ export default function FunnelLayout({
           // Centered mobile layout (for form pages)
           <div className="flex-1 flex flex-col justify-center px-4 py-8">
             <div className="text-center mb-8">
+              {progress}
+              {onBack && <BackLink onBack={onBack} />}
               <h1 className="mb-4">{title}</h1>
               {description && (
                 <p className="text-muted-foreground">

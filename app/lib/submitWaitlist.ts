@@ -5,6 +5,7 @@
 import { SURVEY_QUESTIONS } from '@/app/data/surveyData'
 import { getAnswers, clearAnswers, getSessionId } from '@/app/lib/funnelState'
 import { getUtmParams } from '@/app/lib/utm'
+import { setSignupSnapshot } from '@/app/lib/signupSnapshot'
 import { trackEvent } from '@/app/lib/track'
 import type { FollowUpQuestion, SurveyQuestion } from '@/app/components/survey/types'
 
@@ -28,6 +29,15 @@ function formatAnswer(
 
 export async function submitWaitlist(email: string): Promise<void> {
   if (!FORMSPREE_ID) {
+    if (process.env.NODE_ENV === 'development') {
+      // Dev-only: simulate a successful signup so the post-submission flow
+      // (confirmation + post-signup questions) is testable without Formspree.
+      console.warn('[testkiki] dev mode: no Formspree ID — simulating a successful signup')
+      trackEvent('waitlist_submitted')
+      setSignupSnapshot(email.trim(), getAnswers())
+      clearAnswers()
+      return
+    }
     throw new Error('Waitlist is not configured yet.')
   }
 
@@ -50,6 +60,9 @@ export async function submitWaitlist(email: string): Promise<void> {
       )
     }
   }
+  // Raw value(s) for the segmentation question (e.g. "vp3") so analysis
+  // doesn't have to map labels back to value-prop codes
+  payload['survey_core-pain_value'] = (answers['core-pain'] ?? []).join(', ')
   Object.assign(payload, getUtmParams())
 
   const res = await fetch(`https://formspree.io/f/${FORMSPREE_ID}`, {
@@ -59,5 +72,8 @@ export async function submitWaitlist(email: string): Promise<void> {
   })
   if (!res.ok) throw new Error(`Submission failed (${res.status}) — please try again.`)
   trackEvent('waitlist_submitted')
+  // Snapshot before clearing: the confirmation page's post-signup questions
+  // need the email and the survey answers (PQ3 visibility, association)
+  setSignupSnapshot(email.trim(), answers)
   clearAnswers()
 }

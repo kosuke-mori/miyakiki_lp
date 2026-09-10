@@ -26,6 +26,24 @@ export function nextVisibleIndex(
   return -1
 }
 
+// Index of the previous visible question before `from`, or -1 if `from` is
+// the first visible question
+export function prevVisibleIndex(
+  from: number,
+  answers: Record<string, string[]>
+): number {
+  for (let i = from - 1; i >= 0; i--) {
+    if (isQuestionVisible(SURVEY_QUESTIONS[i], answers)) return i
+  }
+  return -1
+}
+
+// Number of top-level questions currently visible given the answers so far.
+// Follow-up modals aren't counted — they're sub-steps of their parent.
+export function visibleQuestionTotal(answers: Record<string, string[]>): number {
+  return SURVEY_QUESTIONS.filter(q => isQuestionVisible(q, answers)).length
+}
+
 export function isFollowUpTriggered(
   followUp: FollowUpQuestion | undefined,
   selectedValue: string | undefined

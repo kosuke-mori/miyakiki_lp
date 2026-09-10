@@ -26,12 +26,15 @@ npm run build      # production build (all routes prerender statically)
 /  (landing page: headline + typewriter CTA; placeholder sections below the fold)
 └─ /survey    profiling questions with conditional logic:
    │          Q1 household   [follow-up modal: kids count — only for kids/family answers]
-   │          Q2 core pain
+   │          Q2 core pain   [option order randomized per session; "something else" pinned last]
    │          Q3 workaround  [follow-up modal: satisfaction 1–5 — always shown]
    │          Q4 household dynamic  [only shown if Q1 = partner/family]
    └─ /info   value-prop info card with the signup CTA
-      └─ /waitlist  email capture; POSTs email + all answers + UTM params to Formspree
-         └─ /thanks confirmation
+      └─ /waitlist  email capture (validated); POSTs email + all answers + UTM to Formspree
+         └─ /thanks persistent "You're in" confirmation banner + one optional
+                    post-signup question at a time (PQ1–PQ6) replacing itself in
+                    place, with a counter and a quiet "Skip →" link; PQ3 only if
+                    Q1 ≠ "Just me"
 ```
 
 - **Answers** are stored in sessionStorage (`app/lib/funnelState.ts`) and
@@ -43,7 +46,9 @@ npm run build      # production build (all routes prerender statically)
   (`app/lib/utm.ts`) and submitted with the answers, so responses can be
   cross-referenced with the ad/copy variant that brought the visitor in.
 - **Guards:** `/info` and `/waitlist` redirect to `/` when deep-linked
-  without survey answers.
+  without survey answers; `/thanks` redirects to `/` when there's no signup
+  snapshot, since its confirmation banner must never render without proof of
+  a real signup.
 - **Measurement:** funnel conversion can be read from Vercel Analytics page
   views per step (`/` → `/survey` → `/info` → `/waitlist` → `/thanks`).
   Event emission points (`trackEvent()` calls) are already wired throughout
@@ -95,6 +100,15 @@ Event taxonomy:
 | `page_view` | each funnel page mounts | `page` (`landing`/`survey`/`info`/`waitlist`/`thanks`) |
 | `question_answered` | an answer is committed on Continue (follow-ups emit their own event) | `question_id`, `value` |
 | `waitlist_submitted` | the Formspree POST succeeds | — |
+| `post_signup_answered` | an optional PQ answer is saved on the confirmation page | `question_id`, `value` |
+| `post_signup_skipped` | the user taps "Skip →" on a confirmation-page question | `question_id` |
+| `post_signup_done` | the confirmation page's question block is completed (answered or skipped through) | — |
+
+**Post-signup answers (PQ1–PQ6) are currently client-side only**: they live in
+sessionStorage and flow through the no-op `trackEvent()` seam. The email
+signup is the only server-persisted record today — wiring PQ answers to
+storage is part of this backend build. (Formspree was deliberately not used
+for them: it's append-only and quota-limited, and the backend will own this.)
 
 ## Repo map
 
@@ -140,6 +154,15 @@ Per question:
   on mobile, dialog on desktop) when a triggering option is tapped; omit
   `showIf` to trigger on every option, like Q3's satisfaction scale. The
   follow-up answer is stored and submitted under its own id.
+- `randomizeOptions: true` shuffles the option order once per session
+  (`app/lib/optionOrder.ts`; stable across refresh/back); options with
+  `pinned: true` keep their authored position — how Q2 avoids first-position
+  bias while keeping "Honestly, something else" last.
+
+**Post-signup questions** — `app/data/postSignupData.ts` (same option shape,
+plus a `free-text` type). Shown on `/thanks` after a real signup; answers
+save independently to sessionStorage (`app/lib/postSignupState.ts`) as
+they're given and never block the confirmation.
 
 The info card copy (headline, subhead, proof line, CTA) is the `INFO_CARD`
 export in the same file.
@@ -170,10 +193,12 @@ read those comments before moving rules in or out of `@layer base`.
 
 `.env.local`:
 
-- `NEXT_PUBLIC_FORMSPREE_FORM_ID` — **required for the waitlist to work.**
-  Create a form at https://formspree.io and paste the ID (the part after
-  `formspree.io/f/`). Restart the dev server after changing it — the value
-  is inlined at build/dev-server start.
+- `NEXT_PUBLIC_FORMSPREE_FORM_ID` — **required for the waitlist to work in
+  production.** Create a form at https://formspree.io and paste the ID (the
+  part after `formspree.io/f/`). Restart the dev server after changing it —
+  the value is inlined at build/dev-server start. In `npm run dev` without an
+  ID, submissions simulate success (nothing is sent anywhere) so the whole
+  flow — including the post-signup questions — is testable locally.
 
 Vercel project settings:
 

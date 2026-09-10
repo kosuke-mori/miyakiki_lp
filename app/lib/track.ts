@@ -8,7 +8,13 @@
 import { getSessionId } from '@/app/lib/funnelState'
 import { getUtmParams } from '@/app/lib/utm'
 
-export type TrackEventName = 'page_view' | 'question_answered' | 'waitlist_submitted'
+export type TrackEventName =
+  | 'page_view'
+  | 'question_answered'
+  | 'waitlist_submitted'
+  | 'post_signup_answered'
+  | 'post_signup_skipped'
+  | 'post_signup_done'
 
 export function trackEvent(name: TrackEventName, props?: Record<string, string>): void {
   const event = {
