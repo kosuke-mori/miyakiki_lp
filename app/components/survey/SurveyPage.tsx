@@ -43,11 +43,18 @@ export default function SurveyPage({
       showHeroSection={showHeroSection}
       useStickyMobile={true}
     >
-      <SurveyOptionList
-        question={question}
-        selectedValues={selectedValues}
-        onSelectionChange={onSelectionChange}
-      />
+      <div className="space-y-4">
+        <SurveyOptionList
+          question={question}
+          selectedValues={selectedValues}
+          onSelectionChange={onSelectionChange}
+        />
+        {question.optionsFootnote && (
+          <p className="text-center text-sm text-muted-foreground">
+            {question.optionsFootnote}
+          </p>
+        )}
+      </div>
     </FunnelLayout>
   )
 }

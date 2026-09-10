@@ -1,11 +1,14 @@
 'use client'
 
+import Link from 'next/link'
 import TypewriterInput from '@/app/components/TypewriterInput'
+import OptimizedVideo from '@/app/components/OptimizedVideo'
 import UtmCapture from '@/app/components/UtmCapture'
 import TrackPageView from '@/app/components/TrackPageView'
 import { motion } from 'framer-motion'
 import { fadeUpBlur, scaleIn } from '@/app/lib/animations'
 import ImageWithThreeSteps from '@/app/components/ImageWithThreeSteps'
+import Button from '@/app/components/ui/Button'
 import ComparisonTableSection from '@/app/components/ComparisonTableSection'
 import FAQSectionDark from '@/app/components/FAQSectionDark'
 import StatsGrid from '@/app/components/StatsGrid'
@@ -18,6 +21,7 @@ import Container from '@/app/components/ui/Container'
 
 import {
   heroData,
+  belowFoldData,
   howItWorksData,
   testimonialCardsData,
   logoStripData,
@@ -98,6 +102,22 @@ export default function Home() {
           textAlign: 'center'
         }}>
           <Container className="relative z-[1]">
+            <motion.p
+              initial="hidden"
+              animate="visible"
+              variants={fadeUpBlur}
+              style={{
+                fontSize: '13px',
+                fontWeight: 600,
+                letterSpacing: '0.08em',
+                textTransform: 'uppercase',
+                color: '#4288A2',
+                margin: '0 0 16px'
+              }}
+            >
+              {heroData.eyebrow}
+            </motion.p>
+
             <motion.h1
               initial="hidden"
               animate="visible"
@@ -108,13 +128,44 @@ export default function Home() {
                 fontWeight: 400,
                 color: '#1a2e4a',
                 lineHeight: 1.2,
-                margin: '0 auto 48px',
+                margin: '0 auto 24px',
                 maxWidth: '800px',
                 letterSpacing: '-0.02em'
               }}
             >
               {heroData.headline}
             </motion.h1>
+
+            <motion.p
+              initial="hidden"
+              animate="visible"
+              variants={fadeUpBlur}
+              transition={{ delay: 0.2 }}
+              style={{
+                fontSize: 'clamp(16px, 2vw, 18px)',
+                color: 'rgba(0, 0, 0, 0.7)',
+                lineHeight: 1.6,
+                margin: '0 auto 32px',
+                maxWidth: '650px'
+              }}
+            >
+              {heroData.subheadline}
+            </motion.p>
+
+            {/* Hero clip: messy message in → captured (videoplacement.md §1) */}
+            <motion.div
+              initial="hidden"
+              animate="visible"
+              variants={scaleIn}
+              transition={{ delay: 0.3 }}
+              style={{ margin: '0 auto 32px', maxWidth: '340px' }}
+            >
+              <OptimizedVideo
+                name="task-added-to-timeline"
+                eager
+                ariaLabel="Demo: a messy message gets added to your timeline"
+              />
+            </motion.div>
 
             {/* Typewriter Input CTA */}
             <motion.div
@@ -130,6 +181,21 @@ export default function Home() {
                 ctaText={heroData.primaryCTA.text}
               />
             </motion.div>
+          </Container>
+        </section>
+
+        {/* Below-fold intro (prd4 §3.1) */}
+        <section style={{ padding: '60px 0', background: '#fff', textAlign: 'center' }}>
+          <Container size="narrow">
+            <p style={{ fontSize: '18px', color: 'rgba(0, 0, 0, 0.8)', marginBottom: '16px' }}>
+              {belowFoldData.line1}
+            </p>
+            <p style={{ fontSize: '18px', fontWeight: 500, color: '#1a2e4a', marginBottom: '32px' }}>
+              {belowFoldData.line2}
+            </p>
+            <Button asChild size="lg">
+              <Link href={belowFoldData.ctaHref}>{belowFoldData.ctaText}</Link>
+            </Button>
           </Container>
         </section>
 

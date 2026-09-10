@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import FunnelLayout from '@/app/components/survey/FunnelLayout'
+import OptimizedVideo from '@/app/components/OptimizedVideo'
 import TrackPageView from '@/app/components/TrackPageView'
 import { Input } from '@/app/components/ui/input'
 import { hasAnswers } from '@/app/lib/funnelState'
@@ -50,7 +51,17 @@ export default function Waitlist() {
     <TrackPageView page="waitlist" />
     <FunnelLayout
       title="Join the waitlist"
-      description="TODO: one sentence on what joining the waitlist gets them."
+      description="Stop holding every unfinished task inside your head."
+      aboveTitle={
+        // Plays once and holds the last frame (videoplacement.md §3)
+        <OptimizedVideo
+          name="upcoming-reminder-cards"
+          eager
+          loop={false}
+          className="mx-auto max-w-[280px]"
+          ariaLabel="Demo: upcoming reminder cards for the week"
+        />
+      }
       onSubmit={handleSubmit}
       submitText="Join the Beta Waitlist"
       submitLoadingText="Submitting..."
@@ -59,7 +70,7 @@ export default function Waitlist() {
     >
       <div className="space-y-2">
         <label htmlFor="waitlist-email" className="block text-sm font-medium text-foreground">
-          Email address
+          Email
         </label>
         <Input
           id="waitlist-email"

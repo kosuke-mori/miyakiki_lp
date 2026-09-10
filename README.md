@@ -122,7 +122,8 @@ app/
 │   ├── survey/               Funnel UI (SurveyPage, FunnelLayout, FollowUpModal…)
 │   ├── ui/                   Primitives — LP: Button, Container · funnel: shadcn/ui ports
 │   ├── UtmCapture.tsx        Captures utm_*/variant params into sessionStorage
-│   └── TrackPageView.tsx     Emits a page_view event on mount (see Roadmap)
+│   ├── TrackPageView.tsx     Emits a page_view event on mount (see Roadmap)
+│   └── OptimizedVideo.tsx    Autoplaying WebM+MP4 clip (eager/lazy, loop/play-once)
 ├── data/                     ★ ALL editable content lives here
 │   ├── homeData.ts           LP copy (hero is live; sections below the fold are TODO)
 │   ├── surveyData.ts         Survey questions, follow-up modals, info card copy
@@ -137,7 +138,28 @@ app/
 │   └── generateSchema.ts     JSON-LD generators
 ├── hooks/ styles/
 └── globals.css               Design tokens + the .funnel-theme scope (see Styling)
+public/
+└── assets/                   Optimized video clips (WebM + MP4 pairs, audio-free)
 ```
+
+## Video clips
+
+Three square (800×800) UI-animation clips live in `public/assets/` and are
+rendered via `OptimizedVideo` (autoplay/muted/inline, WebM first with MP4
+fallback, immutable cache headers via `next.config.js`). **Placement is
+specced in `videoplacement.md`** — currently: LP hero (loop), info page
+example slot (loop), waitlist above the heading (play once, hold last
+frame). Re-encode recipe for future source changes
+(see `video-asset-optimization-prd.md`):
+
+```bash
+ffmpeg -i input.mp4 -an -c:v libx264 -crf 28 -preset slow -movflags +faststart -pix_fmt yuv420p output.mp4
+ffmpeg -i input.mp4 -an -c:v libvpx-vp9 -crf 34 -b:v 0 output.webm
+```
+
+No poster frames are used (specs require no poster flash; the clips open
+near-white so the neutral placeholder box is visually identical). If a
+poster is ever wanted: `ffmpeg -i clip.mp4 -vframes 1 -q:v 8 poster.jpg`.
 
 ## Where to edit what
 
@@ -158,6 +180,16 @@ Per question:
   (`app/lib/optionOrder.ts`; stable across refresh/back); options with
   `pinned: true` keep their authored position — how Q2 avoids first-position
   bias while keeping "Honestly, something else" last.
+- `tooltip: string` shows a tap-to-reveal info icon next to the question
+  title (`QuestionTooltip`) — used on Q1 for a one-line aside that doesn't
+  fit as a disclaimer.
+
+The info page (`app/info/page.tsx`) is dynamic on the survey answers: its
+headline/close line vary by the core-pain (Q2) answer
+(`INFO_PAGE_BY_VP` in `surveyData.ts`, with `INFO_PAGE_FALLBACK` for an
+unrecognized value), an optional contrast line varies by the workaround
+(Q3) answer (`INFO_PAGE_CONTRAST_BY_WORKAROUND` — some answers intentionally
+have none), and the example block is scoped to the household (Q1) answer.
 
 **Post-signup questions** — `app/data/postSignupData.ts` (same option shape,
 plus a `free-text` type). Shown on `/thanks` after a real signup; answers

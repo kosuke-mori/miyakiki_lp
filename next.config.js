@@ -35,6 +35,17 @@ const nextConfig = {
           },
         ],
       },
+      // Versioned static media (video clips) — safe to cache forever;
+      // content changes ship under a new filename
+      {
+        source: '/assets/:path*',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable'
+          },
+        ],
+      },
     ]
   },
 }

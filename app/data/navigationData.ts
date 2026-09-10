@@ -10,7 +10,7 @@ export const navigationData = {
     { text: "FAQ", href: "#faq" }
   ],
   cta: {
-    text: "Get Started",
+    text: "Continue",
     href: "/survey"
   }
 }

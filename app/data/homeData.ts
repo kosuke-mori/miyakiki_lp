@@ -4,11 +4,13 @@
 // =============================================================================
 
 export const heroData = {
-  // vp1 headline per prd1 — the only LP copy in scope for this test
+  eyebrow: "Chaos, coordinated.",
+  // Static placeholder headline (prd4 leaves this blank pending a future
+  // per-ad dynamic-headline PRD)
   headline: "Stop holding every unfinished task inside your head.",
-  subheadline: "TODO: one or two sentences describing what Testkiki does and why it matters.",
+  subheadline: "Say it however it comes out. Reminders, plans, things people asked you to do — I'll hold onto it.",
   primaryCTA: {
-    text: "Get Started",
+    text: "Continue",
     href: "/survey"
   },
   secondaryCTA: {
@@ -22,6 +24,14 @@ export const heroData = {
     "milk, coffee, and something for Saturday's potluck",
     "rebook the dentist and remind Alex about soccer"
   ]
+}
+
+// prd4 §3.1 below-fold block — sits above the existing placeholder sections
+export const belowFoldData = {
+  line1: "Just type the way you'd text a friend. No right way to say it.",
+  line2: "You say it. I keep track. Nothing slips.",
+  ctaText: "Continue",
+  ctaHref: "/survey"
 }
 
 export const howItWorksData = {

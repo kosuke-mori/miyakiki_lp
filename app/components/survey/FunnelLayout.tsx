@@ -27,6 +27,8 @@ interface FunnelLayoutProps {
 
   // Optional step indicator, rendered above the title (e.g. a progress bar)
   progress?: ReactNode
+  // Optional media/content rendered directly above the title (e.g. a video)
+  aboveTitle?: ReactNode
   // Optional back arrow, left-aligned, rendered below the title/description
   onBack?: () => void
 
@@ -74,6 +76,7 @@ export default function FunnelLayout({
   isLoading = false,
   isDisabled = false,
   progress,
+  aboveTitle,
   onBack,
   showHeroSection = true,
   formMaxWidth = 'max-w-sm',
@@ -93,6 +96,7 @@ export default function FunnelLayout({
             <div className="max-w-md text-center lg:text-left">
               {progress}
               {onBack && <BackLink onBack={onBack} />}
+              {aboveTitle && <div className="mb-6">{aboveTitle}</div>}
               <h1 className="mb-4">{title}</h1>
               {description && (
                 <p className="text-xl text-muted-foreground mb-2">
@@ -139,6 +143,7 @@ export default function FunnelLayout({
               <div className="text-center mb-8">
                 {progress}
                 {onBack && <BackLink onBack={onBack} />}
+                {aboveTitle && <div className="mb-6">{aboveTitle}</div>}
                 <h1 className="mb-4">{title}</h1>
                 {description && (
                   <p className="text-muted-foreground">
@@ -170,6 +175,7 @@ export default function FunnelLayout({
             <div className="text-center mb-8">
               {progress}
               {onBack && <BackLink onBack={onBack} />}
+              {aboveTitle && <div className="mb-6">{aboveTitle}</div>}
               <h1 className="mb-4">{title}</h1>
               {description && (
                 <p className="text-muted-foreground">

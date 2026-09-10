@@ -34,6 +34,8 @@ export interface SurveyQuestion {
   followUp?: FollowUpQuestion
   // Shuffle option order once per session (pinned options keep their position)
   randomizeOptions?: boolean
+  // Small muted note rendered below the option list (e.g. "You can change later")
+  optionsFootnote?: string
 }
 
 // Optional post-signup question shown on the confirmation page
