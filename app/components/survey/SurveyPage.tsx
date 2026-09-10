@@ -18,7 +18,8 @@ export default function SurveyPage({
   isLoading = false,
   isDisabled = false,
   progress,
-  onBack
+  onBack,
+  backgroundColor
 }: SurveyPageProps) {
   // Determine if form is valid based on question requirements
   const isValid = question.required ? selectedValues.length > 0 : true
@@ -40,6 +41,7 @@ export default function SurveyPage({
       isDisabled={shouldDisable}
       progress={progress}
       onBack={onBack}
+      backgroundColor={backgroundColor}
       showHeroSection={showHeroSection}
       useStickyMobile={true}
     >

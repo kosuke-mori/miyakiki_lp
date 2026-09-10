@@ -29,15 +29,22 @@ interface FunnelLayoutProps {
   progress?: ReactNode
   // Optional media/content rendered directly above the title (e.g. a video)
   aboveTitle?: ReactNode
+  // Optional muted supporting line rendered below the submit button
+  belowSubmit?: ReactNode
   // Optional back arrow, left-aligned, rendered below the title/description
   onBack?: () => void
 
   // Layout customization
   showHeroSection?: boolean
   formMaxWidth?: string
+  // Override the page background (e.g. to color-match a video clip)
+  backgroundColor?: string
 
   // Mobile-specific
   useStickyMobile?: boolean
+  // Mobile (non-sticky) only: no white card around the form, content
+  // top-aligned starting near the header (prd5 waitlist revision)
+  mobilePlain?: boolean
 }
 
 // Block + text-left so the arrow sits at the left edge regardless of the
@@ -77,15 +84,21 @@ export default function FunnelLayout({
   isDisabled = false,
   progress,
   aboveTitle,
+  belowSubmit,
   onBack,
   showHeroSection = true,
   formMaxWidth = 'max-w-sm',
-  useStickyMobile = false
+  backgroundColor,
+  useStickyMobile = false,
+  mobilePlain = false
 }: FunnelLayoutProps) {
   const shouldDisable = isDisabled || isLoading
 
   return (
-    <div className="funnel-theme min-h-screen bg-background flex flex-col">
+    <div
+      className="funnel-theme min-h-screen bg-background flex flex-col"
+      style={backgroundColor ? { backgroundColor } : undefined}
+    >
       <FunnelHeader />
 
       {/* Desktop Layout */}
@@ -128,6 +141,7 @@ export default function FunnelLayout({
                     {isLoading ? submitLoadingText : submitText}
                   </Button>
                 )}
+                {belowSubmit}
               </div>
             </CardContent>
           </Card>
@@ -158,7 +172,10 @@ export default function FunnelLayout({
             </div>
 
             {onSubmit && (
-              <div className="p-4 bg-background border-t">
+              <div
+                className="p-4 bg-background border-t"
+                style={backgroundColor ? { backgroundColor } : undefined}
+              >
                 <Button
                   onClick={onSubmit}
                   className="w-full h-12 text-base"
@@ -166,16 +183,22 @@ export default function FunnelLayout({
                 >
                   {isLoading ? submitLoadingText : submitText}
                 </Button>
+                {belowSubmit}
               </div>
             )}
           </>
         ) : (
-          // Centered mobile layout (for form pages)
-          <div className="flex-1 flex flex-col justify-center px-4 py-8">
-            <div className="text-center mb-8">
+          // Centered mobile layout (for form pages); `mobilePlain` variant is
+          // top-aligned with no card around the form (prd5)
+          <div
+            className={`flex-1 flex flex-col px-4 ${
+              mobilePlain ? 'justify-start pt-2 pb-8' : 'justify-center py-8'
+            }`}
+          >
+            <div className={`text-center ${mobilePlain ? 'mb-6' : 'mb-8'}`}>
               {progress}
               {onBack && <BackLink onBack={onBack} />}
-              {aboveTitle && <div className="mb-6">{aboveTitle}</div>}
+              {aboveTitle && <div className={mobilePlain ? 'mb-4' : 'mb-6'}>{aboveTitle}</div>}
               <h1 className="mb-4">{title}</h1>
               {description && (
                 <p className="text-muted-foreground">
@@ -189,23 +212,41 @@ export default function FunnelLayout({
               )}
             </div>
 
-            <Card className={`w-full ${formMaxWidth} mx-auto`}>
-              <CardContent className="pt-6">
-                <div className="space-y-4">
-                  {children}
+            {mobilePlain ? (
+              <div className={`w-full ${formMaxWidth} mx-auto space-y-4`}>
+                {children}
 
-                  {onSubmit && (
-                    <Button
-                      onClick={onSubmit}
-                      className="w-full h-12 text-base"
-                      disabled={shouldDisable}
-                    >
-                      {isLoading ? submitLoadingText : submitText}
-                    </Button>
-                  )}
-                </div>
-              </CardContent>
-            </Card>
+                {onSubmit && (
+                  <Button
+                    onClick={onSubmit}
+                    className="w-full h-12 text-base"
+                    disabled={shouldDisable}
+                  >
+                    {isLoading ? submitLoadingText : submitText}
+                  </Button>
+                )}
+                {belowSubmit}
+              </div>
+            ) : (
+              <Card className={`w-full ${formMaxWidth} mx-auto`}>
+                <CardContent className="pt-6">
+                  <div className="space-y-4">
+                    {children}
+
+                    {onSubmit && (
+                      <Button
+                        onClick={onSubmit}
+                        className="w-full h-12 text-base"
+                        disabled={shouldDisable}
+                      >
+                        {isLoading ? submitLoadingText : submitText}
+                      </Button>
+                    )}
+                    {belowSubmit}
+                  </div>
+                </CardContent>
+              </Card>
+            )}
           </div>
         )}
       </div>

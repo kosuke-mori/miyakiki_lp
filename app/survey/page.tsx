@@ -153,6 +153,7 @@ export default function Survey() {
         ctaLoadingText="Saving..."
         progress={<ProgressBar current={stepIndex + 1} total={total} />}
         onBack={stepIndex > 0 && !followUpOpen ? handleBack : undefined}
+        backgroundColor="#F0F0EE"
       />
       {question.followUp && (
         <FollowUpModal

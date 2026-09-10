@@ -34,9 +34,9 @@
   --color-border-light: rgba(0, 0, 0, 0.05);
   --color-border-inverse: rgba(255, 255, 255, 0.1);
 
-  /* Brand Colors - Brand Blue */
-  --color-primary: #4288A2;
-  --color-primary-hover: #3a7a91;
+  /* Brand Colors - unified funnel primary (waitlist dark teal, prd6) */
+  --color-primary: hsl(177 78% 13%);
+  --color-primary-hover: hsl(177 78% 13% / 0.9);
   --color-primary-light: #e8f2f6;
 
   /* Accent Colors */
@@ -171,15 +171,15 @@
   background-color: hsl(177 78% 13% / 0.9) !important;
 }
 
-/* Button styles - brand blue */
+/* Button styles - unified funnel primary (waitlist dark teal, prd6) */
 .bg-primary {
-  background-color: #4288A2 !important;
+  background-color: hsl(177 78% 13%) !important;
   color: #fff !important;
 }
 
 .bg-primary:hover,
 .hover\:bg-primary-hover:hover {
-  background-color: #3a7a91 !important;
+  background-color: hsl(177 78% 13% / 0.9) !important;
 }
 
 .text-white {

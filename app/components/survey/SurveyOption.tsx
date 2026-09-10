@@ -23,11 +23,11 @@ export default function SurveyOption({
       type="button"
       onClick={() => onClick(option.value)}
       className={`
-        w-full min-h-[48px] px-4 py-3 rounded-lg border bg-white text-left transition-all
+        w-full min-h-[48px] px-4 py-3 rounded-md border bg-white text-left transition-all
         flex items-center justify-between
         ${isSelected
           ? 'border-primary shadow-xs'
-          : 'border-gray-200 hover:border-gray-300 shadow-xs hover:shadow-md'
+          : 'border-input hover:border-gray-300 shadow-xs hover:shadow-md'
         }
       `}
       aria-pressed={isSelected}

@@ -68,6 +68,8 @@ export interface SurveyLayout {
   // Optional step indicator (e.g. a progress bar) and "← Back" control
   progress?: ReactNode
   onBack?: () => void
+  // Override the page background (e.g. to color-match a video clip)
+  backgroundColor?: string
 }
 
 export interface SurveyPageProps extends SurveyCallbacks, SurveyLayout {

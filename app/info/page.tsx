@@ -47,6 +47,7 @@ export default function Info() {
         title={headline}
         onSubmit={() => router.push('/waitlist')}
         submitText={INFO_PAGE_CTA_TEXT}
+        backgroundColor="#F0F0EE"
       >
         {/* Example clip in the example-block slot (videoplacement.md §2);
             same clip for every Q2 variant */}

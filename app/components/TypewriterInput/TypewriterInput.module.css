@@ -61,15 +61,16 @@
   height: 48px;
   border-radius: 50%;
   border: none;
-  background: #c5d5c5;
-  color: #3a5a3a;
+  /* Unified funnel primary (waitlist dark teal, prd6) */
+  background: hsl(177 78% 13%);
+  color: #fff;
   cursor: pointer;
   transition: background 0.2s ease, transform 0.2s ease;
   flex-shrink: 0;
 }
 
 .submitButton:hover {
-  background: #b5c5b5;
+  background: hsl(177 78% 13% / 0.9);
   transform: scale(1.05);
 }
 

@@ -193,7 +193,8 @@ export default function Home() {
             <p style={{ fontSize: '18px', fontWeight: 500, color: '#1a2e4a', marginBottom: '32px' }}>
               {belowFoldData.line2}
             </p>
-            <Button asChild size="lg">
+            {/* h-12 matches the waitlist button height (prd6) */}
+            <Button asChild size="lg" className="h-12 inline-flex items-center">
               <Link href={belowFoldData.ctaHref}>{belowFoldData.ctaText}</Link>
             </Button>
           </Container>

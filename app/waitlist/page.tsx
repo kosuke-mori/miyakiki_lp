@@ -50,7 +50,7 @@ export default function Waitlist() {
     <>
     <TrackPageView page="waitlist" />
     <FunnelLayout
-      title="Join the waitlist"
+      title="Join the waitlist."
       description="Stop holding every unfinished task inside your head."
       aboveTitle={
         // Plays once and holds the last frame (videoplacement.md §3)
@@ -63,13 +63,27 @@ export default function Waitlist() {
         />
       }
       onSubmit={handleSubmit}
-      submitText="Join the Beta Waitlist"
+      submitText="Join the waitlist"
       submitLoadingText="Submitting..."
       isLoading={loading}
       isDisabled={!email.trim()}
+      belowSubmit={
+        <p className="pt-2 text-center text-xs text-muted-foreground">
+          We will reach out within 2 weeks with an invite to the beta. 
+        </p>
+      }
+      // prd5: clip background is baked-in #F0F0EE — match the page to it
+      backgroundColor="#F0F0EE"
+      // prd5 (mobile): no card around the form, top-aligned near the header
+      mobilePlain
     >
       <div className="space-y-2">
-        <label htmlFor="waitlist-email" className="block text-sm font-medium text-foreground">
+        {/* prd5 (mobile): no visible label; kept visible on desktop and for
+            screen readers everywhere */}
+        <label
+          htmlFor="waitlist-email"
+          className="sr-only lg:not-sr-only block text-sm font-medium text-foreground"
+        >
           Email
         </label>
         <Input
@@ -86,11 +100,8 @@ export default function Waitlist() {
             if (e.key === 'Enter') handleSubmit()
           }}
           placeholder="you@email.com"
-          className="h-12"
+          className="h-12 bg-white"
         />
-        <p className="text-xs text-muted-foreground">
-          We&apos;ll only email you about early access — no spam, unsubscribe anytime.
-        </p>
         {error && (
           <p className="text-sm text-destructive" role="alert">
             {error}
