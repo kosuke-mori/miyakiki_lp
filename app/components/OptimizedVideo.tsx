@@ -22,6 +22,10 @@ interface OptimizedVideoProps {
   name: string
   loop?: boolean
   eager?: boolean
+  // Intrinsic clip dimensions (defaults fit the square 800×800 clips);
+  // drive the reserved aspect-ratio so non-square clips don't distort
+  width?: number
+  height?: number
   className?: string
   ariaLabel?: string
 }
@@ -30,6 +34,8 @@ export default function OptimizedVideo({
   name,
   loop = true,
   eager = false,
+  width = 800,
+  height = 800,
   className,
   ariaLabel
 }: OptimizedVideoProps) {
@@ -76,7 +82,7 @@ export default function OptimizedVideo({
     <div
       ref={containerRef}
       className={cn('overflow-hidden rounded-lg bg-card', className)}
-      style={{ aspectRatio: '1 / 1' }}
+      style={{ aspectRatio: `${width} / ${height}` }}
     >
       <video
         ref={videoRef}
@@ -85,8 +91,8 @@ export default function OptimizedVideo({
         loop={loop}
         playsInline
         preload={eager ? 'auto' : 'none'}
-        width={800}
-        height={800}
+        width={width}
+        height={height}
         aria-label={ariaLabel}
         className="h-full w-full object-cover"
       >

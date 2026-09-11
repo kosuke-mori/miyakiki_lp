@@ -4,11 +4,9 @@ export const navigationData = {
     subtitle: "",
     href: "/"
   },
-  links: [
-    { text: "Home", href: "/" },
-    { text: "How It Works", href: "#how-it-works" },
-    { text: "FAQ", href: "#faq" }
-  ],
+  // No nav links: the nav is logo + Continue only (desktop links removed
+  // per user request after prd8's FAQ-link removal)
+  links: [] as Array<{ text: string; href: string }>,
   cta: {
     text: "Continue",
     href: "/survey"

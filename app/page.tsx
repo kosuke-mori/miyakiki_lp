@@ -1,5 +1,6 @@
 'use client'
 
+import { useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
 import TypewriterInput from '@/app/components/TypewriterInput'
 import OptimizedVideo from '@/app/components/OptimizedVideo'
@@ -9,44 +10,39 @@ import { motion } from 'framer-motion'
 import { fadeUpBlur, scaleIn } from '@/app/lib/animations'
 import ImageWithThreeSteps from '@/app/components/ImageWithThreeSteps'
 import Button from '@/app/components/ui/Button'
-import ComparisonTableSection from '@/app/components/ComparisonTableSection'
-import FAQSectionDark from '@/app/components/FAQSectionDark'
-import StatsGrid from '@/app/components/StatsGrid'
 import TestimonialCards from '@/app/components/TestimonialCards'
-import TrustedByLogos from '@/app/components/TrustedByLogos'
-import ValuePropCards from '@/app/components/ValuePropCards'
 import Navigation from '@/app/components/Navigation/Navigation'
 import Footer from '@/app/components/Footer/Footer'
 import Container from '@/app/components/ui/Container'
 
 import {
   heroData,
-  belowFoldData,
+  mechanicLinesData,
   howItWorksData,
-  testimonialCardsData,
-  logoStripData,
-  featureCardsData,
-  statsGridData,
-  comparisonData,
-  faqData
+  testimonialCardsData
 } from '@/app/data/homeData'
-import { generateFAQSchema } from '@/app/lib/generateSchema'
 import { navigationData } from '@/app/data/navigationData'
 import { footerData } from '@/app/data/footerData'
 
-// Painted-door test LP (prd1): the hero carries the vp1 headline; the
-// sections below the fold are placeholder structure (TODO copy) kept
-// visible until real content lands.
+// Painted-door test LP (prd8 section set): Nav → Hero → How It Works →
+// Testimonials → mechanic lines + typewriter → Footer. Five earlier sections
+// live in app/components/parked/ (see its README) for future reuse.
 export default function Home() {
-  // Transform FAQ data to include IDs
-  const faqItems = faqData.map((item, index) => ({
-    id: `faq-${index + 1}`,
-    question: item.question,
-    answer: item.answer
-  }))
+  // On mobile, the nav's Continue only appears once the hero's primary CTA
+  // has scrolled out of view (never two CTAs stacked on screen)
+  const heroCtaRef = useRef<HTMLDivElement>(null)
+  const [heroCtaInView, setHeroCtaInView] = useState(true)
 
-  // Generate FAQ schema for SEO
-  const faqSchema = generateFAQSchema(faqData)
+  useEffect(() => {
+    const el = heroCtaRef.current
+    if (!el || typeof IntersectionObserver === 'undefined') return
+    const observer = new IntersectionObserver(
+      entries => setHeroCtaInView(entries.some(e => e.isIntersecting)),
+      { threshold: 0 }
+    )
+    observer.observe(el)
+    return () => observer.disconnect()
+  }, [])
 
   // Transform navigation data
   const navLinks = navigationData.links.map((link, index) => ({
@@ -71,17 +67,6 @@ export default function Home() {
     }
   ]
 
-  // Transform footer data
-  const footerColumns = footerData.links.map((section, index) => ({
-    id: `footer-${index}`,
-    title: section.title,
-    links: section.items.map((item, i) => ({
-      id: `footer-${index}-${i}`,
-      label: item.text,
-      url: item.href
-    }))
-  }))
-
   return (
     <>
       <UtmCapture />
@@ -90,17 +75,20 @@ export default function Home() {
         logo={{ text: navigationData.logo.text, subtitle: navigationData.logo.subtitle, url: navigationData.logo.href }}
         links={navLinks}
         buttons={navButtons}
+        hideMobileCta={heroCtaInView}
       />
 
       <main>
-        {/* 1. Hero Section */}
-        <section style={{
-          position: 'relative',
-          padding: '120px 0 100px',
-          background: '#fff',
-          overflow: 'hidden',
-          textAlign: 'center'
-        }}>
+        {/* 1. Hero Section — mobile top padding is 40% tighter (prd7) */}
+        <section
+          className="pt-[72px] lg:pt-[120px] pb-[100px]"
+          style={{
+            position: 'relative',
+            background: '#fff',
+            overflow: 'hidden',
+            textAlign: 'center'
+          }}
+        >
           <Container className="relative z-[1]">
             <motion.p
               initial="hidden"
@@ -167,36 +155,25 @@ export default function Home() {
               />
             </motion.div>
 
-            {/* Typewriter Input CTA */}
+            {/* Hero CTA (prd7 — the typewriter moved below the testimonials).
+                The primary conversion action: larger than other buttons;
+                observed so the nav CTA can take over once it scrolls away. */}
             <motion.div
+              ref={heroCtaRef}
               initial="hidden"
               animate="visible"
               variants={scaleIn}
               transition={{ delay: 0.4 }}
               style={{ marginBottom: '40px' }}
             >
-              <TypewriterInput
-                queries={heroData.exampleQueries}
-                ctaHref={heroData.primaryCTA.href}
-                ctaText={heroData.primaryCTA.text}
-              />
+              <Button
+                asChild
+                size="lg"
+                className="h-14 px-12 text-lg inline-flex items-center justify-center w-full max-w-[340px] lg:w-auto"
+              >
+                <Link href={heroData.primaryCTA.href}>{heroData.primaryCTA.text}</Link>
+              </Button>
             </motion.div>
-          </Container>
-        </section>
-
-        {/* Below-fold intro (prd4 §3.1) */}
-        <section style={{ padding: '60px 0', background: '#fff', textAlign: 'center' }}>
-          <Container size="narrow">
-            <p style={{ fontSize: '18px', color: 'rgba(0, 0, 0, 0.8)', marginBottom: '16px' }}>
-              {belowFoldData.line1}
-            </p>
-            <p style={{ fontSize: '18px', fontWeight: 500, color: '#1a2e4a', marginBottom: '32px' }}>
-              {belowFoldData.line2}
-            </p>
-            {/* h-12 matches the waitlist button height (prd6) */}
-            <Button asChild size="lg" className="h-12 inline-flex items-center">
-              <Link href={belowFoldData.ctaHref}>{belowFoldData.ctaText}</Link>
-            </Button>
           </Container>
         </section>
 
@@ -209,62 +186,45 @@ export default function Home() {
           features={howItWorksData.features}
         />
 
-        {/* 3. Comparison Table */}
-        <ComparisonTableSection
-          label="COMPARISON"
-          headline={comparisonData.headline}
-          rows={comparisonData.rows}
-          columnTitles={comparisonData.columnTitles}
-        />
-
-        {/* 4. TrustedByLogos - Social Proof */}
-        <TrustedByLogos
-          headline={logoStripData.headline}
-          logos={logoStripData.logos}
-        />
-
-        {/* 5. ValuePropCards */}
-        <ValuePropCards
-          headline={featureCardsData.headline}
-          subheadline={featureCardsData.subheadline}
-          cards={featureCardsData.cards as [typeof featureCardsData.cards[0], typeof featureCardsData.cards[1], typeof featureCardsData.cards[2]]}
-        />
-
-        {/* 6. Stats Grid */}
-        <StatsGrid
-          label={statsGridData.label}
-          headline={statsGridData.headline}
-          subheadline={statsGridData.subheadline}
-          stats={statsGridData.stats}
-        />
-
-        {/* 7. Testimonial Cards */}
+        {/* 3. Testimonial Cards */}
         <TestimonialCards
           headline={testimonialCardsData.headline}
-          cards={testimonialCardsData.cards as [typeof testimonialCardsData.cards[0], typeof testimonialCardsData.cards[1]]}
+          cards={testimonialCardsData.cards}
         />
 
-        {/* 8. FAQ */}
-        <FAQSectionDark
-          label="FAQ"
-          headline="Your questions, answered"
-          items={faqItems}
-        />
+        {/* 4. Mechanic lines + typewriter (prd7 — moved from the hero) */}
+        <section style={{ padding: '60px 0', background: '#fff', textAlign: 'center' }}>
+          <Container size="narrow">
+            <p style={{ fontSize: '18px', color: 'rgba(0, 0, 0, 0.8)', marginBottom: '16px' }}>
+              {mechanicLinesData.line1}
+            </p>
+            <p style={{ fontSize: '18px', fontWeight: 500, color: '#1a2e4a', marginBottom: '32px' }}>
+              {mechanicLinesData.line2}
+            </p>
+            {/* Chat intro explainer — below the fold, so it lazy-loads
+                (video-asset-optimization-prd.md); portrait 674×850 clip */}
+            <div style={{ margin: '0 auto 32px', maxWidth: '300px' }}>
+              <OptimizedVideo
+                name="onboarding-4-chat-intro-explainer"
+                width={670}
+                height={850}
+                ariaLabel="Demo: how the chat intro works"
+              />
+            </div>
+            <TypewriterInput
+              queries={heroData.exampleQueries}
+              ctaHref={heroData.primaryCTA.href}
+              ctaText={heroData.primaryCTA.text}
+            />
+          </Container>
+        </section>
 
       </main>
 
       <Footer
-        columns={footerColumns}
+        productName={navigationData.logo.text}
         copyright={footerData.copyright}
-      />
-
-      {/* FAQ Schema for SEO */}
-      <script
-        id="faq-schema"
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(faqSchema)
-        }}
+        legalLinks={footerData.legalLinks}
       />
     </>
   )

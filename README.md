@@ -1,5 +1,10 @@
 # Testkiki Landing Page — Experiment Sandbox
 
+> **⚠️ Before launching paid traffic, read [`performance-audit.md`](./performance-audit.md)** —
+> it documents one serious pre-launch fix (the above-the-fold hero is
+> invisible until JS hydrates) plus prioritized quick wins, with evidence,
+> effort estimates, and acceptance criteria.
+
 A standalone painted-door test site for Testkiki: a landing page plus a
 profiling-survey → waitlist funnel that measures interest before the product
 exists. There is no backend — waitlist submissions go to Formspree, and all
@@ -119,6 +124,7 @@ app/
 ├── survey/ info/ waitlist/ thanks/  The funnel routes
 ├── components/
 │   ├── <Section>/            One folder per LP section (tsx + CSS module)
+│   ├── parked/               LP sections removed for the test, kept for reuse (see its README)
 │   ├── survey/               Funnel UI (SurveyPage, FunnelLayout, FollowUpModal…)
 │   ├── ui/                   Primitives — LP: Button, Container · funnel: shadcn/ui ports
 │   ├── UtmCapture.tsx        Captures utm_*/variant params into sessionStorage
@@ -147,9 +153,11 @@ public/
 Three square (800×800) UI-animation clips live in `public/assets/` and are
 rendered via `OptimizedVideo` (autoplay/muted/inline, WebM first with MP4
 fallback, immutable cache headers via `next.config.js`). **Placement is
-specced in `videoplacement.md`** — currently: LP hero (loop), info page
-example slot (loop), waitlist above the heading (play once, hold last
-frame). Re-encode recipe for future source changes
+specced in `videoplacement.md`** — currently: LP hero (loop, eager), info
+page example slot (loop), waitlist above the heading (play once, hold last
+frame), plus the portrait chat-intro explainer in the LP mechanic-lines
+block (loop, **lazy** — below the fold). Re-encode recipe for future source
+changes
 (see `video-asset-optimization-prd.md`):
 
 ```bash
@@ -165,6 +173,15 @@ poster is ever wanted: `ffmpeg -i clip.mp4 -vframes 1 -q:v 8 poster.jpg`.
 
 **Copy** — everything user-visible is in `app/data/*.ts` (remaining
 placeholders are marked `TODO`). No component changes needed for text edits.
+
+**LP section set (prd8)** — the page renders only Nav → Hero → How It Works
+→ Testimonials → mechanic lines + typewriter → minimal Footer. Five earlier
+sections (Comparison, Trusted by, Capabilities, Stats, FAQ) are parked in
+`app/components/parked/` with their data still in `homeData.ts` — re-mounting
+one is a pure `page.tsx` change. **FAQ caveat:** the FAQ section's JSON-LD
+structured data was removed together with the accordion; if the FAQ section
+returns, restore the schema (`generateFAQSchema`) in the same change —
+Google requires FAQ structured data to match visible page content.
 
 **Survey questions** — `app/data/surveyData.ts`. Add/remove entries in the
 `SURVEY_QUESTIONS` array; the survey derives the flow automatically.

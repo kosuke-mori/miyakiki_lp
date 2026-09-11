@@ -8,7 +8,7 @@ export const heroData = {
   // Static placeholder headline (prd4 leaves this blank pending a future
   // per-ad dynamic-headline PRD)
   headline: "Stop holding every unfinished task inside your head.",
-  subheadline: "Say it however it comes out. Reminders, plans, things people asked you to do — I'll hold onto it.",
+  subheadline: "It reminders, plans, things people asked you to do. I'll hold onto it and surface it at a right time.",
   primaryCTA: {
     text: "Continue",
     href: "/survey"
@@ -26,52 +26,61 @@ export const heroData = {
   ]
 }
 
-// prd4 §3.1 below-fold block — sits above the existing placeholder sections
-export const belowFoldData = {
+// The two "mechanic lines" shown with the typewriter input, directly below
+// the testimonials (prd7; originally prd4's below-fold block)
+export const mechanicLinesData = {
   line1: "Just type the way you'd text a friend. No right way to say it.",
-  line2: "You say it. I keep track. Nothing slips.",
-  ctaText: "Continue",
-  ctaHref: "/survey"
+  line2: "You say it. I keep track. Nothing slips."
 }
 
 export const howItWorksData = {
   label: 'HOW IT WORKS',
-  headline: "TODO: How It Works headline",
-  subheadline: "TODO: supporting subheadline.",
+  headline: "Everyone's counting on you to remember. I'll take it from here.",
+  subheadline: "Anything you tell me, I'll keep track of.",
   image: {
     src: '',
     alt: 'TODO: image description'
   },
   features: [
     {
-      title: 'TODO: feature 1 title',
-      description: 'TODO: feature 1 description.'
+      title: "Say it. I'll sort it.",
+      description: 'Half a thought is enough. I turn it into a list.'
     },
     {
-      title: 'TODO: feature 2 title',
-      description: 'TODO: feature 2 description.'
+      title: "I'll bring it back.",
+      description: "When it matters, to whoever it's for."
     },
     {
-      title: 'TODO: feature 3 title',
-      description: 'TODO: feature 3 description.'
+      title: "I'll be the coordinator.",
+      description: 'Mom, daughter, partner — one memory for every hat.'
     }
   ]
 }
 
+// prd7 testimonials — three person cards, verbatim copy
 export const testimonialCardsData = {
-  headline: 'TODO: testimonials headline',
+  headline: 'What early families tell us',
   cards: [
     {
       type: 'person' as const,
-      name: 'TODO: name',
-      title: 'TODO: title / company',
-      quote: 'TODO: testimonial quote.'
+      name: 'Dana',
+      title: 'Working mom, caring for her mother',
+      quote:
+        "My mom's appointments, my daughter's school stuff, my own job — three lives in one head. I told it all of it, in no order, and it just kept up."
     },
     {
       type: 'person' as const,
-      name: 'TODO: name',
-      title: 'TODO: title / company',
-      quote: 'TODO: testimonial quote.'
+      name: 'Priya',
+      title: 'Working mom, three kids',
+      quote:
+        'It used to be my Notes app, my calendar, and about forty percent of my brain. Now I just talk to it on the drive home and it puts everything where it goes.'
+    },
+    {
+      type: 'person' as const,
+      name: 'Alex',
+      title: 'Single parent, works full time',
+      quote:
+        "I stopped waking up at 3am trying to remember what I forgot. I just say it when I think of it, and it's handled."
     }
   ]
 }

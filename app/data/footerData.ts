@@ -1,18 +1,10 @@
+// Minimal footer (prd8): product name, copyright, and placeholder legal
+// links. The old link-column/newsletter footer was removed with the LP slim-
+// down; hrefs become real routes when privacy/terms pages exist.
 export const footerData = {
-  company: {
-    name: "Testkiki",
-    tagline: "TODO: tagline" // TODO
-  },
-  links: [
-    {
-      title: "Company",
-      items: [
-        { text: "Home", href: "/" },
-        { text: "Contact", href: "#contact" }
-      ]
-    }
-  ],
-  social: [] as Array<{ platform: string; href: string; icon: string }>,
-  // TODO: add real social links, e.g. { platform: "LinkedIn", href: "https://linkedin.com/company/...", icon: "linkedin" }
-  copyright: `Copyright © ${new Date().getFullYear()} Testkiki, Inc.`
+  copyright: `Copyright © ${new Date().getFullYear()} Testkiki, Inc.`,
+  legalLinks: [
+    { label: 'Privacy Policy', href: '#' },
+    { label: 'Terms & Conditions', href: '#' }
+  ]
 }

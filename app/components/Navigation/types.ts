@@ -6,6 +6,9 @@ export interface NavigationProps {
   }
   links: NavigationLink[]
   buttons: NavigationButton[]
+  // Mobile only: hide the CTA button (used while the page's own primary CTA
+  // is on screen, so two CTAs never stack). Desktop always shows it.
+  hideMobileCta?: boolean
 }
 
 export interface NavigationLink {

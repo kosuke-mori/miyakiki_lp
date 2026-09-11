@@ -1,17 +1,5 @@
-export interface FooterColumn {
-  id: string
-  title: string
-  links: FooterLink[]
-}
-
-export interface FooterLink {
-  id: string
-  label: string
-  url: string
-}
-
 export interface FooterProps {
-  columns: FooterColumn[]
+  productName: string
   copyright: string
-  legalLinks?: FooterLink[]
+  legalLinks: Array<{ label: string; href: string }>
 }

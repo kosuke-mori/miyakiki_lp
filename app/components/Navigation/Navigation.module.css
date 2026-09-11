@@ -1,4 +1,5 @@
 .nav {
+  position: -webkit-sticky; /* older iOS Safari */
   position: sticky;
   top: 0;
   background: rgba(249, 249, 249, 0.8);
@@ -153,114 +154,38 @@
   display: flex;
   gap: 12px;
   align-items: center;
+  transition: opacity 0.25s ease;
 }
 
-/* Mobile Menu Toggle */
-.mobileMenuToggle {
+/* Spacer keeps content from jumping under the fixed mobile nav; unused on
+   desktop where the nav is sticky (in normal flow). */
+.navSpacer {
   display: none;
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 8px;
 }
 
-.hamburger {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-.hamburger span {
-  display: block;
-  width: 24px;
-  height: 2px;
-  background: #050505;
-  transition: all 0.3s;
-}
-
-/* Mobile Menu */
-.mobileMenu {
-  display: none;
-  background: #fff;
-  border-top: 0.75px solid rgba(0, 0, 0, 0.09);
-  padding: 8px 16px;
-}
-
-.mobileMenu ul {
-  list-style: none;
-  margin-bottom: 8px;
-}
-
-.mobileMenu ul li {
-  margin-bottom: 6px;
-}
-
-.mobileMenu a {
-  color: #050505;
-  text-decoration: none;
-  font-size: 12px;
-  font-family: "Poppins", sans-serif;
-  font-weight: 500;
-  display: block;
-  padding: 4px 0;
-}
-
-.mobileButtons {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-/* Mobile Dropdown Styles */
-.mobileDropdownWrapper {
-  margin-bottom: 0;
-}
-
-.mobileDropdownTrigger {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-  background: none;
-  border: none;
-  cursor: pointer;
-  color: #050505;
-  font-size: 12px;
-  font-family: "Poppins", sans-serif;
-  font-weight: 500;
-  padding: 4px 0;
-  text-align: left;
-}
-
-.mobileDropdownMenu {
-  list-style: none;
-  padding-left: 16px;
-  margin-top: 4px;
-}
-
-.mobileDropdownMenu li {
-  margin-bottom: 4px;
-}
-
-.mobileDropdownMenu a {
-  color: rgba(0, 0, 0, 0.7);
-  font-size: 12px;
-}
-
+/* Mobile: links hidden, the primary Continue button stays visible (prd7 —
+   the hamburger menu is gone). The button fades out while the page's own
+   primary CTA is on screen. The nav is position:fixed here — sticky was
+   reported unreliable on mobile devices — with the spacer holding its
+   place in the flow. */
 @media (max-width: 809.98px) {
-  .navRight {
+  .nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+  }
+
+  .navSpacer {
+    display: block;
+  }
+
+  .navLinks {
     display: none;
   }
 
-  .mobileMenuToggle {
-    display: block;
-  }
-
-  .mobileMenu {
-    display: block;
-  }
-
-  .mobileMenu {
-    padding: 8px 12px;
+  .navButtonsMobileHidden {
+    opacity: 0;
+    pointer-events: none;
   }
 }

@@ -28,7 +28,7 @@ interface PersonCard {
 
 interface TestimonialCardsProps {
   headline?: string
-  cards: [TeamCard | PersonCard, TeamCard | PersonCard]
+  cards: (TeamCard | PersonCard)[]
 }
 
 export default function TestimonialCards({ headline, cards }: TestimonialCardsProps) {
@@ -54,7 +54,13 @@ export default function TestimonialCards({ headline, cards }: TestimonialCardsPr
               initial="hidden"
               whileInView="visible"
               viewport={scrollViewport}
-              variants={index === 0 ? slideFromLeft : slideFromRight}
+              variants={
+                index === 0
+                  ? slideFromLeft
+                  : index === cards.length - 1
+                    ? slideFromRight
+                    : fadeUp
+              }
               transition={{ delay: index * 0.15 }}
             >
               {card.type === 'team' ? (
